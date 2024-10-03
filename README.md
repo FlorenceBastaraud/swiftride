@@ -75,5 +75,5 @@ npm run dev
 ## Usage
 
 This project is intended for personal use and testing only.
-Commercial use is not permitted. If you wish to use this project for commercial purposes, please [contact me for further information at fbastaraud@yahoo.fr](mailto:myemailadress@email.com)
+Commercial use is not permitted. If you wish to use this project for commercial purposes, please contact me for further information at [fbastaraud@yahoo.fr](mailto:fbastaraud@yahoo.fr)
 .

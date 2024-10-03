@@ -1,6 +1,6 @@
 # SwiftRide - E-commerce Website
 
-Welcome to **SwiftRide**, your one-stop shop for rollers, skateboards, scooters, and all the equipment you need to ride in style and safety!
+Welcome to **SwiftRide**, your one-stop shop for rollers, skateboards, bikes, and all the equipment you need to ride in style and safety!
 
 ## Table of Contents
 
@@ -33,21 +33,14 @@ To set up the project locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/swiftride.git
+   git clone https://github.com/FlorenceBastaraud/swiftride.git
    cd swiftride
 
    ```
 
-2. Install the dependencies:
+2. Set up Strapi:
 
-```bash
-npm install
-
-```
-
-3.  Set up Strapi:
-
-Navigate to the Strapi folder (if it's a separate repo):
+Navigate to the Strapi folder:
 
 ```bash
 cd strapi
@@ -55,10 +48,18 @@ npm install
 npm run develop
 ```
 
-4. Return to the Next.js project:
+3. Navigate to the Next.js project:
 
 ```bash
 cd ..
+cd frontend
+
+```
+
+4. Install the dependencies:
+
+```bash
+npm i
 
 ```
 

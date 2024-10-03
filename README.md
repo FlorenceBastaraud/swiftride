@@ -7,7 +7,6 @@ Welcome to **SwiftRide**, your one-stop shop for rollers, skateboards, bikes, an
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Usage](#usage)
 
 ## Features
 
@@ -71,3 +70,8 @@ npm run dev
 ```
 
 6. Visit http://localhost:3000 in your browser to view the website.
+
+## Usage
+
+This project is intended for personal use and testing only.
+Commercial use is not permitted. If you wish to use this project for commercial purposes, please contact the project owner for further information.

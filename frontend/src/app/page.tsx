@@ -1,10 +1,12 @@
+import HeroSlider from '@/components/HeroSlider'
+
 export default function Home() {
   return (
-    <main className="wrapper wrapper-flex-1 p-2">
-      <div>SECTION: Hero slider</div>
-      <div>SECTION: Best sellers</div>
-      <div>SECTION: Gallery masonry</div>
-      <div>SECTION: Newsletter</div>
+    <main className="wrapper-flex-1 overflow-x-hidden">
+      <HeroSlider />
+      <section className="wrapper">SECTION: Best sellers</section>
+      <section className="wrapper">SECTION: Gallery masonry</section>
+      <section className="wrapper">SECTION: Newsletter</section>
     </main>
   )
 }

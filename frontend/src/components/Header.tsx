@@ -6,32 +6,32 @@ const Header = () => {
     <header className="bg-black text-white">
       <div className="wrapper flex justify-between">
         <Link
-          className="p-2 transition-effect hover:bg-white hover:text-black"
+          className="p-2 transition-effect rounded-2xl hover:bg-white hover:text-black"
           href="/"
         >
           <span className="font-bold italic">SwiftRide</span>
         </Link>
         <ul className="flex">
           <Link
-            className="p-2 transition-effect hover:bg-white hover:text-black"
+            className="p-2 transition-effect rounded-2xl hover:bg-white hover:text-black"
             href="/"
           >
             Home
           </Link>
           <Link
-            className="p-2 transition-effect hover:bg-white hover:text-black"
+            className="p-2 transition-effect rounded-2xl hover:bg-white hover:text-black"
             href="/shop"
           >
             Shop
           </Link>
           <Link
-            className="p-2 transition-effect hover:bg-white hover:text-black"
+            className="p-2 transition-effect rounded-2xl hover:bg-white hover:text-black"
             href="/gallery"
           >
             Gallery
           </Link>
           <Link
-            className="p-2 transition-effect hover:bg-white hover:text-black"
+            className="p-2 transition-effect rounded-2xl hover:bg-white hover:text-black"
             href="/contact"
           >
             Contact

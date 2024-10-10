@@ -6,9 +6,11 @@ import 'swiper/css/bundle'
 import axios from 'axios'
 import { CategoryType } from '@/data/propTypes/category'
 import Link from 'next/link'
+import { shuffleColors, colors } from '@/utils/functions'
 
 const HeroSlider = () => {
   const [categories, setCategories] = useState<CategoryType[]>([])
+  const [shuffledColors, setShuffledColors] = useState<string[]>([])
 
   const swiperRef = useRef<HTMLDivElement | null>(null)
   const swiperBtnNext = useRef<HTMLDivElement | null>(null)
@@ -27,6 +29,8 @@ const HeroSlider = () => {
     }
 
     fetchCategories()
+
+    setShuffledColors(shuffleColors(colors))
   }, [])
 
   useEffect(() => {
@@ -50,49 +54,76 @@ const HeroSlider = () => {
       <div className="swiper-hero w-full h-full" ref={swiperRef}>
         <div className="swiper-wrapper w-full h-full">
           {categories.length > 0 ? (
-            categories.map((category) => {
+            categories.map((category, index) => {
               const imageUrl =
                 process.env.NEXT_PUBLIC_STRAPI_URL + category.Image[0]?.url ||
                 ''
-              console.log(imageUrl)
               const imageAlt =
                 category.Image[0]?.alternativeText || category.Name + ' image'
               const imageWidth = category.Image[0]?.width || 1280
               const imageHeight = category.Image[0]?.height || 500
+
+              const uniqueColor = shuffledColors[index % shuffledColors.length]
+
               return (
-                <div key={category.id} className="swiper-slide bg-gray-950">
+                <div
+                  key={category.id}
+                  className="swiper-slide"
+                  style={{ backgroundColor: uniqueColor }}
+                >
                   <div className="flex h-full relative">
                     <div
                       style={{ zIndex: '100' }}
                       className="flex justify-center items-center flex-col gap-5 w-full text-center"
                     >
-                      <h2 className="text-white text-5xl font-bold">
+                      <h2 className="text-black text-5xl font-bold">
                         {category.Name}
                       </h2>
                       <Link
                         href={'/' + category.Slug}
-                        className="text-black bg-white py-2 px-4 border border-transparent rounded-2xl transition-effect hover:bg-black hover:text-white hover:border-white"
+                        className="text-white bg-black py-2 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
                       >
                         Shop {category.Name}
                       </Link>
                     </div>
-                    <div className="w-full h-full absolute top-0 left-0 zIndex-minus md:relative">
-                      <img
-                        src={imageUrl}
-                        alt={imageAlt}
-                        width={imageWidth}
-                        height={imageHeight}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+                    {imageUrl ? (
+                      <div className="w-full h-full absolute top-0 left-0 zIndex-minus md:relative">
+                        <img
+                          src={imageUrl}
+                          alt={imageAlt}
+                          width={imageWidth}
+                          height={imageHeight}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               )
             })
           ) : (
-            <div className="swiper-slide">
-              <div className="wrapper">
-                <p>Loading categories...</p>
+            <div
+              className="swiper-slide"
+              style={{ backgroundColor: colors[0] }}
+            >
+              <div className="w-full h-full relative">
+                <img
+                  src="/images/default-hero.jpg"
+                  alt="A skateboarder performs an impressive trick mid-air, showcasing skill and balance against an urban backdrop."
+                  className="w-full h-full object-cover"
+                />
+                <div
+                  style={{ zIndex: '100' }}
+                  className="absolute flex top-0 left-0 justify-center items-center flex-col gap-5 w-full h-full text-center"
+                >
+                  <h2 className="text-white text-5xl font-bold">SwiftRide</h2>
+                  <Link
+                    href="/shop"
+                    className="text-black bg-white py-2 px-4 border border-transparent rounded-2xl transition-effect hover:bg-black hover:text-white hover:border-white"
+                  >
+                    Shop
+                  </Link>
+                </div>
               </div>
             </div>
           )}

@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Header = () => {
   return (
-    <header className="bg-black text-white">
+    <header className="bg-black text-white border-b-2">
       <div className="wrapper flex justify-between">
         <Link
           className="p-2 transition-effect rounded-2xl hover:bg-white hover:text-black"

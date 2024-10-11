@@ -19,6 +19,9 @@ const config: Config = {
         minus: '-1',
         top: '100',
       },
+      rounded: {
+        r: '50%',
+      },
     },
   },
   plugins: [],

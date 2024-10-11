@@ -48,7 +48,7 @@ const HeroSlider = () => {
   }, [categories])
 
   return (
-    <section className="w-full h-hero overflow-hidden">
+    <section className="w-full h-hero overflow-hidden relative">
       <div className="swiper-hero w-full h-full" ref={swiperRef}>
         <div className="swiper-wrapper w-full h-full">
           {categories.length > 0 ? (
@@ -65,7 +65,7 @@ const HeroSlider = () => {
                 <div key={category.id} className="swiper-slide bg-gray-100">
                   <div className="flex h-full relative">
                     <div
-                      style={{ zIndex: '100' }}
+                      style={{ zIndex: '600' }}
                       className="flex justify-center items-center flex-col gap-5 w-full text-center"
                     >
                       <h2 className="text-black text-5xl font-bold">
@@ -117,6 +117,19 @@ const HeroSlider = () => {
             </div>
           )}
         </div>
+      </div>
+      <div className="absolute bottom-0 left-0 w-full" style={{ zIndex: 400 }}>
+        <svg
+          className="w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 240"
+        >
+          <path
+            fill="#FFF"
+            fillOpacity="1"
+            d="M0,192L80,208C160,224,320,256,480,250.7C640,245,800,203,960,197.3C1120,192,1280,224,1360,240L1440,240L1440,320L0,320Z"
+          ></path>
+        </svg>
       </div>
     </section>
   )

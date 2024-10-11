@@ -25,6 +25,7 @@ Welcome to **SwiftRide**, your one-stop shop for rollers, skateboards, bikes, an
 - **Strapi**: A headless CMS for managing content and APIs
 - **React**: JavaScript library for building user interfaces
 - **Node.js**: JavaScript runtime for server-side development
+- **Gsap**: A JavaScript animation library
 
 ## Installation
 

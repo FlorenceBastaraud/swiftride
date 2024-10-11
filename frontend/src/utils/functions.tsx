@@ -1,5 +1,5 @@
-export function stripText(text: string): string {
-  return text.length > 150 ? text.slice(0, 150) + '...' : text
+export function stripText(text: string, limit: number): string {
+  return text.length > limit ? text.slice(0, limit) + '...' : text
 }
 
 export const colors: string[] = [

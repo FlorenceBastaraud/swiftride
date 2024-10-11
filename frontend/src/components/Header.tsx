@@ -27,12 +27,12 @@ const Header = () => {
     >
       <div className="wrapper flex justify-between items-center p-4">
         <Link
-          className="p-2 transition-effect rounded-2xl hover:scale-110 text-black"
+          className="p-2 transition-effect rounded-2xl hover:scale-110 text-white md:text-black"
           href="/"
         >
           <span className="font-bold italic">SwiftRide</span>
         </Link>
-        <ul className="flex space-x-4">
+        <ul className="flex md:space-x-4">
           <li>
             <Link
               className={`p-2 transition-effect rounded-2xl ${

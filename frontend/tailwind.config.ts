@@ -13,7 +13,7 @@ const config: Config = {
         foreground: 'var(--foreground)',
       },
       height: {
-        hero: '500px',
+        hero: '600px',
       },
       zIndex: {
         minus: '-1',

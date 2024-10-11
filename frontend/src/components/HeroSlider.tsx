@@ -6,15 +6,11 @@ import 'swiper/css/bundle'
 import axios from 'axios'
 import { CategoryType } from '@/data/propTypes/category'
 import Link from 'next/link'
-import { shuffleColors, colors } from '@/utils/functions'
 
 const HeroSlider = () => {
   const [categories, setCategories] = useState<CategoryType[]>([])
-  const [shuffledColors, setShuffledColors] = useState<string[]>([])
 
   const swiperRef = useRef<HTMLDivElement | null>(null)
-  const swiperBtnNext = useRef<HTMLDivElement | null>(null)
-  const swiperBtnPrev = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,23 +25,25 @@ const HeroSlider = () => {
     }
 
     fetchCategories()
-
-    setShuffledColors(shuffleColors(colors))
   }, [])
 
   useEffect(() => {
+    let swiperInstance: Swiper | null = null
+
     if (swiperRef.current) {
-      new Swiper(swiperRef.current, {
+      swiperInstance = new Swiper(swiperRef.current, {
         loop: true,
         autoplay: {
           delay: 5000,
         },
         slidesPerView: 1,
-        navigation: {
-          nextEl: swiperBtnNext.current,
-          prevEl: swiperBtnPrev.current,
-        },
       })
+    }
+
+    return () => {
+      if (swiperInstance) {
+        swiperInstance.destroy()
+      }
     }
   }, [categories])
 
@@ -54,7 +52,7 @@ const HeroSlider = () => {
       <div className="swiper-hero w-full h-full" ref={swiperRef}>
         <div className="swiper-wrapper w-full h-full">
           {categories.length > 0 ? (
-            categories.map((category, index) => {
+            categories.map((category) => {
               const imageUrl =
                 process.env.NEXT_PUBLIC_STRAPI_URL + category.Image[0]?.url ||
                 ''
@@ -63,14 +61,8 @@ const HeroSlider = () => {
               const imageWidth = category.Image[0]?.width || 1280
               const imageHeight = category.Image[0]?.height || 500
 
-              const uniqueColor = shuffledColors[index % shuffledColors.length]
-
               return (
-                <div
-                  key={category.id}
-                  className="swiper-slide"
-                  style={{ backgroundColor: uniqueColor }}
-                >
+                <div key={category.id} className="swiper-slide bg-gray-100">
                   <div className="flex h-full relative">
                     <div
                       style={{ zIndex: '100' }}
@@ -81,9 +73,9 @@ const HeroSlider = () => {
                       </h2>
                       <Link
                         href={'/' + category.Slug}
-                        className="text-white bg-black py-2 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
+                        className="text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
                       >
-                        Shop {category.Name}
+                        Discover more
                       </Link>
                     </div>
                     {imageUrl ? (
@@ -102,10 +94,7 @@ const HeroSlider = () => {
               )
             })
           ) : (
-            <div
-              className="swiper-slide"
-              style={{ backgroundColor: colors[0] }}
-            >
+            <div className="swiper-slide">
               <div className="w-full h-full relative">
                 <img
                   src="/images/default-hero.jpg"
@@ -128,9 +117,6 @@ const HeroSlider = () => {
             </div>
           )}
         </div>
-
-        <div className="swiper-button-prev" ref={swiperBtnPrev}></div>
-        <div className="swiper-button-next" ref={swiperBtnNext}></div>
       </div>
     </section>
   )

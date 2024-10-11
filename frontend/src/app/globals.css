@@ -26,13 +26,3 @@
 .transition-effect {
   transition: 0.3s ease-in-out;
 }
-
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  color: #000;
-}
-
-.swiper-button-next:hover::after,
-.swiper-button-prev:hover::after {
-  color: #535252;
-}

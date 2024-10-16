@@ -1,31 +1,17 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Swiper from 'swiper/bundle'
 import 'swiper/css/bundle'
-import axios from 'axios'
-import { CategoryType } from '@/data/propTypes/category'
 import Link from 'next/link'
+import { CategoryType } from '@/data/propTypes/category'
 
-const HeroSlider = () => {
-  const [categories, setCategories] = useState<CategoryType[]>([])
+interface HeroSliderProps {
+  data: CategoryType[]
+}
 
+const HeroSlider: React.FC<HeroSliderProps> = ({ data }) => {
   const swiperRef = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/categories?populate=Image`
-        )
-        setCategories(response.data.data)
-      } catch (error) {
-        console.error('Error fetching categories:', error)
-      }
-    }
-
-    fetchCategories()
-  }, [])
 
   useEffect(() => {
     let swiperInstance: Swiper | null = null
@@ -45,34 +31,33 @@ const HeroSlider = () => {
         swiperInstance.destroy()
       }
     }
-  }, [categories])
+  }, [data])
 
   return (
     <section className="w-full h-hero overflow-hidden relative">
       <div className="swiper-hero w-full h-full" ref={swiperRef}>
         <div className="swiper-wrapper w-full h-full">
-          {categories.length > 0 ? (
-            categories.map((category) => {
+          {data.length > 0 ? (
+            data.map((item) => {
               const imageUrl =
-                process.env.NEXT_PUBLIC_STRAPI_URL + category.Image[0]?.url ||
-                ''
+                process.env.NEXT_PUBLIC_STRAPI_URL + item.Image[0]?.url || ''
               const imageAlt =
-                category.Image[0]?.alternativeText || category.Name + ' image'
-              const imageWidth = category.Image[0]?.width || 1280
-              const imageHeight = category.Image[0]?.height || 500
+                item.Image[0]?.alternativeText || item.Name + ' image'
+              const imageWidth = item.Image[0]?.width || 1280
+              const imageHeight = item.Image[0]?.height || 500
 
               return (
-                <div key={category.id} className="swiper-slide bg-gray-100">
+                <div key={item.id} className="swiper-slide bg-gray-100">
                   <div className="flex h-full relative">
                     <div
                       style={{ zIndex: '600' }}
                       className="flex justify-center items-center flex-col gap-5 w-full text-center"
                     >
                       <h2 className="text-black text-5xl font-bold">
-                        {category.Name}
+                        {item.Name}
                       </h2>
                       <Link
-                        href={'/' + category.Slug}
+                        href={'/' + item.Slug}
                         className="text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
                       >
                         Discover more

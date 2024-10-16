@@ -7,14 +7,27 @@ import { Product } from '@/data/propTypes/product'
 import ProductCard from '@/components/ProductCard'
 import Masonry from 'react-masonry-css'
 import { GalleryItem } from '@/data/propTypes/media'
+import { CategoryType } from '@/data/propTypes/category'
 
 export default function Home() {
+  const [categories, setCategories] = useState<CategoryType[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [galleryImages, setGalleryImages] = useState<GalleryItem[]>([])
   const [imagesToShow, setImagesToShow] = useState<number>(6)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/categories?populate=Image`
+        )
+        setCategories(response.data.data)
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+      }
+    }
+
     const fetchProducts = async () => {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?populate=Image`
@@ -35,6 +48,7 @@ export default function Home() {
       setGalleryImages(response.data.data)
     }
 
+    fetchCategories()
     fetchProducts()
     fetchGalleryImages()
   }, [])
@@ -55,7 +69,7 @@ export default function Home() {
 
   return (
     <main className="wrapper-flex-1 overflow-x-hidden">
-      <HeroSlider />
+      <HeroSlider data={categories} />
       <section className="wrapper wrapper-py-3">
         <h2 className="text-3xl font-semibold text-center mb-8">
           Best Sellers

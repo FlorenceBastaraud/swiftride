@@ -27,7 +27,9 @@ const Header = () => {
     >
       <div className="wrapper flex justify-between items-center p-4">
         <Link
-          className="p-2 transition-effect rounded-2xl hover:scale-110 text-white md:text-black"
+          className={`p-2 transition-effect rounded-2xl hover:scale-110 md:text-black ${
+            isScrolled ? ' text-black' : ' text-white'
+          }`}
           href="/"
         >
           <span className="font-bold italic">SwiftRide</span>

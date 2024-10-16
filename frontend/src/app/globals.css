@@ -21,6 +21,10 @@
   padding: 0;
 }
 
+.mt50 {
+  margin-top: 50px;
+}
+
 .wrapper-flex-1 {
   flex-grow: 1;
 }

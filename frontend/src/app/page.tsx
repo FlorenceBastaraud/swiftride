@@ -8,6 +8,8 @@ import ProductCard from '@/components/ProductCard'
 import Masonry from 'react-masonry-css'
 import { GalleryItem } from '@/data/propTypes/media'
 import { CategoryType } from '@/data/propTypes/category'
+import Image from 'next/image'
+import { NewsletterEntry } from '@/data/propTypes/newsletter'
 
 export default function Home() {
   const [categories, setCategories] = useState<CategoryType[]>([])
@@ -15,6 +17,10 @@ export default function Home() {
   const [galleryImages, setGalleryImages] = useState<GalleryItem[]>([])
   const [imagesToShow, setImagesToShow] = useState<number>(6)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>('')
+  const [message, setMessage] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -29,23 +35,29 @@ export default function Home() {
     }
 
     const fetchProducts = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?populate=Image`
-      )
-      const filteredProducts = response.data.data
-        .filter((product: Product) => product.Stock > 0)
-        .sort((a: Product, b: Product) => b.Stock - a.Stock)
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?populate=Image`
+        )
+        const filteredProducts = response.data.data
+          .filter((product: Product) => product.Stock > 0)
+          .sort((a: Product, b: Product) => b.Stock - a.Stock)
 
-      setProducts(filteredProducts)
+        setProducts(filteredProducts)
+      } catch (error) {
+        console.error('Error fetching products:', error)
+      }
     }
 
     const fetchGalleryImages = async () => {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/galleries?populate=File`
-      )
-      console.log(response.data.data)
-
-      setGalleryImages(response.data.data)
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/galleries?populate=File`
+        )
+        setGalleryImages(response.data.data)
+      } catch (error) {
+        console.error('Error fetching gallery images:', error)
+      }
     }
 
     fetchCategories()
@@ -67,10 +79,62 @@ export default function Home() {
     700: 1,
   }
 
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value)
+  }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const checkResponse = await axios.get(
+        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/newsletters`
+      )
+
+      const existingEntries: NewsletterEntry[] = checkResponse.data.data
+
+      if (existingEntries.some((item) => item.Email === email)) {
+        setMessage('This email is already subscribed.')
+        setLoading(false)
+        return
+      }
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/newsletters`,
+        {
+          data: { Email: email },
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+
+      if (response.status === 200 || response.status === 201) {
+        setMessage('Subscription successful!')
+        setIsSubmitted(true)
+        setEmail('')
+
+        setTimeout(() => {
+          setMessage('')
+          setIsSubmitted(false)
+        }, 5000)
+      }
+    } catch (error) {
+      console.error('Error subscribing:', error)
+      setMessage('An error occurred while subscribing. Please try again later.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <main className="wrapper-flex-1 overflow-x-hidden">
       <HeroSlider data={categories} />
-      <section className="wrapper wrapper-py-3">
+      <section className="wrapper wrapper-py-3 mt50">
         <h2 className="text-3xl font-semibold text-center mb-8">
           Best Sellers
         </h2>
@@ -85,7 +149,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="wrapper wrapper-p-3">
+      <section className="wrapper wrapper-p-3 mt50">
         <h2 className="text-3xl font-semibold text-center mb-8">Gallery</h2>
 
         <Masonry
@@ -116,13 +180,60 @@ export default function Home() {
               disabled={loadingMore}
               className="text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
             >
-              {loadingMore ? 'Loading...' : 'Load More'}
+              {loadingMore ? (
+                <Image
+                  src="/images/loader-swiftride.gif"
+                  alt="Gif of a loader"
+                  width={20}
+                  height={20}
+                ></Image>
+              ) : (
+                'Load More'
+              )}
             </button>
           </div>
         )}
       </section>
 
-      <section className="wrapper">SECTION: Newsletter</section>
+      <section className="wrapper-py-3 bg-gray-100 mt50 max-md:px-10">
+        <h2 className="text-3xl font-semibold text-center mb-2">
+          Stay in touch
+        </h2>
+        <p className="text-center mb-4">
+          Subscribe to our newsletter to get the latest updates and offers!
+        </p>
+        {!isSubmitted ? (
+          <form
+            onSubmit={handleSubmit}
+            className="text-center flex justify-center flex-col md:flex-row"
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              placeholder="Enter your email"
+              required
+              className="border p-1 max-md:text-center"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="text-white bg-black py-1 px-4 border border-transparent transition-effect hover:bg-white hover:text-black hover:border-black"
+            >
+              {loading ? 'Loading...' : 'Subscribe'}
+            </button>
+          </form>
+        ) : (
+          <div className="text-center mt-4 underline">
+            <p>{message}</p>
+          </div>
+        )}
+        {message && !isSubmitted && (
+          <div className="text-center mt-4 underline">
+            <p>{message}</p>
+          </div>
+        )}
+      </section>
     </main>
   )
 }

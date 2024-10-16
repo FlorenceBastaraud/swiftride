@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "newsletters",
+  "info": {
+    "singularName": "newsletter",
+    "pluralName": "newsletters",
+    "displayName": "Newsletter",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Email": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "regex": "^[\\w\\.-]+@[a-zA-Z\\d\\.-]+\\.[a-zA-Z]{2,}$"
+    }
+  }
+}

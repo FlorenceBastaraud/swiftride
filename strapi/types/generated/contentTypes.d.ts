@@ -552,6 +552,36 @@ export interface ApiGalleryGallery extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiNewsletterNewsletter extends Struct.CollectionTypeSchema {
+  collectionName: 'newsletters';
+  info: {
+    singularName: 'newsletter';
+    pluralName: 'newsletters';
+    displayName: 'Newsletter';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Email: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::newsletter.newsletter'
+    >;
+  };
+}
+
 export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   collectionName: 'products';
   info: {
@@ -966,6 +996,7 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::category.category': ApiCategoryCategory;
       'api::gallery.gallery': ApiGalleryGallery;
+      'api::newsletter.newsletter': ApiNewsletterNewsletter;
       'api::product.product': ApiProductProduct;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;

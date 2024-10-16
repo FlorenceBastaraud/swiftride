@@ -9,6 +9,14 @@
   padding: 0.5rem;
 }
 
+.wrapper-py-3 {
+  padding: 3em 0;
+}
+
+.wrapper-p-3 {
+  padding: 3em;
+}
+
 .no-padding {
   padding: 0;
 }
@@ -25,4 +33,18 @@
 
 .transition-effect {
   transition: 0.3s ease-in-out;
+}
+
+.my-masonry-grid {
+  display: flex;
+  margin-left: -20px;
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 20px;
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column > div {
+  margin-bottom: 20px;
 }

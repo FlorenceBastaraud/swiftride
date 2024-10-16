@@ -37,7 +37,7 @@ const Header = () => {
             <Link
               className={`p-2 transition-effect rounded-2xl ${
                 isScrolled
-                  ? 'text-black hover:text-gray-800'
+                  ? 'text-black hover:text-blue-400'
                   : 'text-white hover:text-gray-300'
               }`}
               href="/"
@@ -49,7 +49,7 @@ const Header = () => {
             <Link
               className={`p-2 transition-effect rounded-2xl ${
                 isScrolled
-                  ? 'text-black hover:text-gray-800'
+                  ? 'text-black hover:text-blue-400'
                   : 'text-white hover:text-gray-300'
               }`}
               href="/shop"
@@ -61,7 +61,7 @@ const Header = () => {
             <Link
               className={`p-2 transition-effect rounded-2xl ${
                 isScrolled
-                  ? 'text-black hover:text-gray-800'
+                  ? 'text-black hover:text-blue-400'
                   : 'text-white hover:text-gray-300'
               }`}
               href="/gallery"
@@ -73,7 +73,7 @@ const Header = () => {
             <Link
               className={`p-2 transition-effect rounded-2xl ${
                 isScrolled
-                  ? 'text-black hover:text-gray-800'
+                  ? 'text-black hover:text-blue-400'
                   : 'text-white hover:text-gray-300'
               }`}
               href="/contact"

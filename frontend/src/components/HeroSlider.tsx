@@ -34,7 +34,10 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data }) => {
   }, [data])
 
   return (
-    <section className="w-full h-hero overflow-hidden relative">
+    <section
+      className="w-full h-hero overflow-hidden relative"
+      aria-label="Hero Slider"
+    >
       <div className="swiper-hero w-full h-full" ref={swiperRef}>
         <div className="swiper-wrapper w-full h-full">
           {data.length > 0 ? (
@@ -59,6 +62,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data }) => {
                       <Link
                         href={'/' + item.Slug}
                         className="text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
+                        aria-label={`Discover more about ${item.Name}`}
                       >
                         Discover more
                       </Link>
@@ -94,6 +98,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data }) => {
                   <Link
                     href="/shop"
                     className="text-black bg-white py-2 px-4 border border-transparent rounded-2xl transition-effect hover:bg-black hover:text-white hover:border-white"
+                    aria-label="Shop now"
                   >
                     Shop
                   </Link>
@@ -110,15 +115,15 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data }) => {
         <svg
           className="w-full h-full"
           id="wave"
-          style={{ transition: ' 0.3s' }}
+          style={{ transition: '0.3s' }}
           viewBox="0 0 1440 120"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
             <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
-              <stop stop-color="rgba(255, 255, 255, 1)" offset="0%"></stop>
-              <stop stop-color="rgba(255, 255, 255, 1)" offset="100%"></stop>
+              <stop stopColor="rgba(255, 255, 255, 1)" offset="0%"></stop>
+              <stop stopColor="rgba(255, 255, 255, 1)" offset="100%"></stop>
             </linearGradient>
           </defs>
           <path

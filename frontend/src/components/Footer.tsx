@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-black text-white" role="contentinfo">
       <div className="wrapper flex flex-col items-center gap-5 p-1">
         <Link className="transition-effect hover:scale-110" href="/">
           <span className="font-bold italic text-2xl">SwiftRide</span>

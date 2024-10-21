@@ -22,7 +22,7 @@ describe('Header component', () => {
     expect(headerElement).toHaveClass('bg-transparent', 'text-white')
   })
 
-  it('renders accessible links', () => {
+  it('renders menu links with correct href', () => {
     render(<Header />)
 
     const homeLink = screen.getByRole('link', { name: /home/i })

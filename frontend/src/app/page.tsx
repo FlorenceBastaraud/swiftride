@@ -3,13 +3,13 @@
 import HeroSlider from '@/components/HeroSlider'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Product } from '@/data/propTypes/product'
+import { Product } from '@/types/product'
 import ProductCard from '@/components/ProductCard'
 import Masonry from 'react-masonry-css'
-import { GalleryItem } from '@/data/propTypes/media'
-import { CategoryType } from '@/data/propTypes/category'
+import { GalleryItem } from '@/types/media'
+import { CategoryType } from '@/types/category'
 import Image from 'next/image'
-import { NewsletterEntry } from '@/data/propTypes/newsletter'
+import { NewsletterEntry } from '@/types/newsletter'
 
 export default function Home() {
   const [categories, setCategories] = useState<CategoryType[]>([])

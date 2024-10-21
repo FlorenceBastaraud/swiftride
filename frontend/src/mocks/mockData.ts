@@ -1,4 +1,4 @@
-import { CategoryType } from '@/data/propTypes/category'
+import { CategoryType } from '@/types/category'
 
 export const mockCategory: CategoryType[] = [
   {

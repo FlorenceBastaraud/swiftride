@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import Swiper from 'swiper/bundle'
 import 'swiper/css/bundle'
 import Link from 'next/link'
-import { CategoryType } from '@/data/propTypes/category'
+import { CategoryType } from '@/types/category'
 
 interface HeroSliderProps {
   data: CategoryType[]

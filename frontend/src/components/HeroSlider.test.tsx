@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import HeroSlider from './HeroSlider'
 import '@testing-library/jest-dom'
 import { mockCategory } from '../mocks/mockData'
+import React from 'react'
 
 describe('HeroSlider', () => {
   it('renders correctly with data', () => {

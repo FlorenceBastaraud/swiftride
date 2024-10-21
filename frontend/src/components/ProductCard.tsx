@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Product } from '@/data/propTypes/product'
+import { Product } from '@/types/product'
 import { stripText } from '@/utils/functions'
 
 interface ProductCardProps {

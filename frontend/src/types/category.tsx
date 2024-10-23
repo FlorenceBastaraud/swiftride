@@ -46,7 +46,7 @@ export interface CategoryDescription {
   }[]
 }
 
-export interface CategoryType {
+export interface Category {
   id: number
   documentId: string
   Name: string

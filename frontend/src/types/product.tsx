@@ -3,6 +3,7 @@ export type Product = {
   documentId: string
   Name: string
   Price: number
+  featured: boolean
   Description: Array<{
     type: string
     children: Array<{

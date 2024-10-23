@@ -604,6 +604,9 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     Stock: Schema.Attribute.Integer;
     Slug: Schema.Attribute.String & Schema.Attribute.Unique;
     category: Schema.Attribute.Relation<'oneToOne', 'api::category.category'>;
+    featured: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

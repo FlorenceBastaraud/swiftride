@@ -27,8 +27,8 @@ const Header = () => {
     >
       <div className="wrapper flex justify-between items-center p-4">
         <Link
-          className={`p-2 transition-effect rounded-2xl hover:scale-110 md:text-black ${
-            isScrolled ? ' text-black' : ' text-white'
+          className={`p-2 transition-effect rounded-2xl hover:scale-110 text-black ${
+            isScrolled ? ' text-blue-900' : ' text-black'
           }`}
           href="/"
         >
@@ -39,8 +39,8 @@ const Header = () => {
             <Link
               className={`p-2 transition-effect rounded-2xl ${
                 isScrolled
-                  ? 'text-black hover:text-blue-400'
-                  : 'text-white hover:text-gray-300'
+                  ? 'text-blue-900 hover:text-blue-400'
+                  : 'text-black hover:text-gray-400'
               }`}
               href="/"
             >
@@ -51,8 +51,8 @@ const Header = () => {
             <Link
               className={`p-2 transition-effect rounded-2xl ${
                 isScrolled
-                  ? 'text-black hover:text-blue-400'
-                  : 'text-white hover:text-gray-300'
+                  ? 'text-blue-900 hover:text-blue-400'
+                  : 'text-black hover:text-gray-400'
               }`}
               href="/shop"
             >
@@ -63,8 +63,8 @@ const Header = () => {
             <Link
               className={`p-2 transition-effect rounded-2xl ${
                 isScrolled
-                  ? 'text-black hover:text-blue-400'
-                  : 'text-white hover:text-gray-300'
+                  ? 'text-blue-900 hover:text-blue-400'
+                  : 'text-black hover:text-gray-400'
               }`}
               href="/gallery"
             >
@@ -75,8 +75,8 @@ const Header = () => {
             <Link
               className={`p-2 transition-effect rounded-2xl ${
                 isScrolled
-                  ? 'text-black hover:text-blue-400'
-                  : 'text-white hover:text-gray-300'
+                  ? 'text-blue-900 hover:text-blue-400'
+                  : 'text-black hover:text-gray-400'
               }`}
               href="/contact"
             >

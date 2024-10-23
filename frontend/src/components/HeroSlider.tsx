@@ -4,13 +4,15 @@ import React, { useEffect, useRef } from 'react'
 import Swiper from 'swiper/bundle'
 import 'swiper/css/bundle'
 import Link from 'next/link'
-import { CategoryType } from '@/types/category'
+import { Category } from '@/types/category'
+import { Product } from '@/types/product'
 
 interface HeroSliderProps {
-  data: CategoryType[]
+  data: Category[] | Product[]
+  type: string
 }
 
-const HeroSlider: React.FC<HeroSliderProps> = ({ data }) => {
+const HeroSlider: React.FC<HeroSliderProps> = ({ data, type }) => {
   const swiperRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -40,72 +42,127 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data }) => {
     >
       <div className="swiper-hero w-full h-full" ref={swiperRef}>
         <div className="swiper-wrapper w-full h-full">
-          {data.length > 0 ? (
+          {type === 'categories' &&
+            (data.length > 0 ? (
+              data.map((item) => {
+                const imageUrl =
+                  process.env.NEXT_PUBLIC_STRAPI_URL + item.Image[0]?.url || ''
+                const imageAlt =
+                  item.Image[0]?.alternativeText || item.Name + ' image'
+                const imageWidth = item.Image[0]?.width || 1280
+                const imageHeight = item.Image[0]?.height || 500
+
+                return (
+                  <div key={item.id} className="swiper-slide bg-gray-100">
+                    <div className="flex h-full relative">
+                      <div
+                        style={{ zIndex: '600' }}
+                        className="flex justify-center items-center flex-col gap-5 w-full text-center"
+                      >
+                        <h2 className="text-black text-5xl font-bold">
+                          {item.Name}
+                        </h2>
+                        <Link
+                          href={'/' + item.Slug}
+                          className="text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
+                          aria-label={`Discover more about ${item.Name}`}
+                        >
+                          Discover more
+                        </Link>
+                      </div>
+                      {imageUrl ? (
+                        <div className="w-full h-full absolute top-0 left-0 zIndex-minus md:relative">
+                          <img
+                            src={imageUrl}
+                            alt={imageAlt}
+                            width={imageWidth}
+                            height={imageHeight}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                )
+              })
+            ) : (
+              <div className="swiper-slide">
+                <div className="w-full h-full relative">
+                  <img
+                    src="/images/default-hero.jpg"
+                    alt="A skateboarder performs an impressive trick mid-air, showcasing skill and balance against an urban backdrop."
+                    className="w-full h-full object-cover"
+                  />
+                  <div
+                    style={{ zIndex: '100' }}
+                    className="absolute flex top-0 left-0 justify-center items-center flex-col gap-5 w-full h-full text-center"
+                  >
+                    <h2 className="text-white text-5xl font-bold">SwiftRide</h2>
+                    <Link
+                      href="/shop"
+                      className="text-black bg-white py-2 px-4 border border-transparent rounded-2xl transition-effect hover:bg-black hover:text-white hover:border-white"
+                      aria-label="Shop now"
+                    >
+                      Shop
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+          {type === 'products' &&
+            data.length > 0 &&
             data.map((item) => {
-              const imageUrl =
-                process.env.NEXT_PUBLIC_STRAPI_URL + item.Image[0]?.url || ''
+              const imageUrl = item.Image[0]?.url
+                ? process.env.NEXT_PUBLIC_STRAPI_URL + item.Image[0]?.url
+                : '/images/default-product-image.png'
               const imageAlt =
                 item.Image[0]?.alternativeText || item.Name + ' image'
-              const imageWidth = item.Image[0]?.width || 1280
-              const imageHeight = item.Image[0]?.height || 500
+              const imageWidth = 150
+              const imageHeight = 150
 
               return (
-                <div key={item.id} className="swiper-slide bg-gray-100">
-                  <div className="flex h-full relative">
-                    <div
-                      style={{ zIndex: '600' }}
-                      className="flex justify-center items-center flex-col gap-5 w-full text-center"
-                    >
-                      <h2 className="text-black text-5xl font-bold">
+                <div key={item.id} className="swiper-slide">
+                  <div className="flex h-full">
+                    <div className="flex justify-center items-center flex-col gap-5 w-full text-center">
+                      {imageUrl && (
+                        <div
+                          className="relative overflow-hidden"
+                          style={{
+                            height: imageHeight + 'px',
+                            width: imageWidth + 'px',
+                          }}
+                        >
+                          <img
+                            src={imageUrl}
+                            alt={imageAlt}
+                            width={imageWidth}
+                            height={imageHeight}
+                            className="object-cover absolute"
+                            style={{
+                              top: '50%',
+                              left: '50%',
+                              transform: 'translate(-50%, -50%)',
+                            }}
+                          />
+                        </div>
+                      )}
+                      <h2 className="text-black text-3xl md:text-5xl font-bold">
                         {item.Name}
                       </h2>
+                      <h3 className="text-black text-2xl">${item?.Price}</h3>
                       <Link
                         href={'/' + item.Slug}
                         className="text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
                         aria-label={`Discover more about ${item.Name}`}
                       >
-                        Discover more
+                        Product details
                       </Link>
                     </div>
-                    {imageUrl ? (
-                      <div className="w-full h-full absolute top-0 left-0 zIndex-minus md:relative">
-                        <img
-                          src={imageUrl}
-                          alt={imageAlt}
-                          width={imageWidth}
-                          height={imageHeight}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ) : null}
                   </div>
                 </div>
               )
-            })
-          ) : (
-            <div className="swiper-slide">
-              <div className="w-full h-full relative">
-                <img
-                  src="/images/default-hero.jpg"
-                  alt="A skateboarder performs an impressive trick mid-air, showcasing skill and balance against an urban backdrop."
-                  className="w-full h-full object-cover"
-                />
-                <div
-                  style={{ zIndex: '100' }}
-                  className="absolute flex top-0 left-0 justify-center items-center flex-col gap-5 w-full h-full text-center"
-                >
-                  <h2 className="text-white text-5xl font-bold">SwiftRide</h2>
-                  <Link
-                    href="/shop"
-                    className="text-black bg-white py-2 px-4 border border-transparent rounded-2xl transition-effect hover:bg-black hover:text-white hover:border-white"
-                    aria-label="Shop now"
-                  >
-                    Shop
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
+            })}
         </div>
       </div>
       <div

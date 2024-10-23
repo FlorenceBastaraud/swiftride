@@ -134,7 +134,7 @@ export default function Home() {
 
   return (
     <main className="wrapper-flex-1 overflow-x-hidden">
-      <HeroSlider data={categories} />
+      <HeroSlider data={categories} type="categories" />
       <section className="wrapper wrapper-py-3 mt50">
         <h2 className="text-3xl font-semibold text-center mb-8">
           Best Sellers

@@ -14,7 +14,7 @@ const TrustBadges: React.FC = () => {
             <img
               src={badge.src}
               alt={badge.alt}
-              className="w-24 h-24 object-contain mb-2"
+              className="w-24 h-20 object-contain mb-2"
             />
             <span className="text-lg font-medium">{badge.title}</span>
           </div>

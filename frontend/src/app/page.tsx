@@ -10,6 +10,7 @@ import { GalleryItem } from '@/types/media'
 import { CategoryType } from '@/types/category'
 import Image from 'next/image'
 import { NewsletterEntry } from '@/types/newsletter'
+import TrustBadges from '@/components/TrustBadges'
 
 export default function Home() {
   const [categories, setCategories] = useState<CategoryType[]>([])
@@ -194,6 +195,8 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      <TrustBadges />
 
       <section className="wrapper-py-3 bg-gray-100 mt50 max-md:px-10">
         <h2 className="text-3xl font-semibold text-center mb-2">

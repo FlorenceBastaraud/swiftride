@@ -1,3 +1,5 @@
+import { Category } from './category'
+
 export type Product = {
   id: number
   documentId: string
@@ -11,6 +13,7 @@ export type Product = {
       text: string
     }>
   }>
+  category: Category
   Stock: number
   Slug: string
   createdAt: string

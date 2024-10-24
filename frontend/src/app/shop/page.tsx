@@ -12,14 +12,12 @@ export default function Shop() {
   async function getProducts() {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?populate=Image`
+        `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?populate=*`
       )
 
       const featuredProductsData: Product[] = response.data.data.filter(
         (product: Product) => product?.featured
       )
-
-      console.log(featuredProductsData)
 
       setFeaturedProducts(featuredProductsData)
       setProducts(response.data.data)

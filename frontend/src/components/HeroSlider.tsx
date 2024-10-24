@@ -118,32 +118,51 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data, type }) => {
                 : '/images/default-product-image.png'
               const imageAlt =
                 item.Image[0]?.alternativeText || item.Name + ' image'
-              const imageWidth = 150
-              const imageHeight = 150
+              const imageWidth =
+                item.category.Slug === 'skateboards' ? item.Image[0].width : 150
+              const imageHeight =
+                item.category.Slug === 'skateboards'
+                  ? item.Image[0].height
+                  : 150
+              const imageWrapperStyle = {
+                height: imageHeight + 'px',
+                width: imageWidth + 'px',
+                overflow: 'hidden',
+              }
+              if (item.category.Slug === 'skateboards') {
+                imageWrapperStyle.transform = 'rotate(-90deg)'
+                imageWrapperStyle.marginBottom = '-170px'
+              }
+
+              const imageStyle = {
+                top: '50%',
+                left: '50%',
+                width: '100%',
+                height: '100%',
+                transform: 'translate(-50%, -50%)',
+              }
+
+              if (item.category.Slug === 'skateboards') {
+                imageStyle.width = '80%'
+                imageStyle.height = '80%'
+              }
 
               return (
                 <div key={item.id} className="swiper-slide">
                   <div className="flex h-full">
-                    <div className="flex justify-center items-center flex-col gap-5 w-full text-center">
+                    <div
+                      className={`flex items-center flex-col gap-5 w-full text-center${
+                        item.category.Slug !== 'skateboards' &&
+                        ' justify-center'
+                      }`}
+                    >
                       {imageUrl && (
-                        <div
-                          className="relative overflow-hidden"
-                          style={{
-                            height: imageHeight + 'px',
-                            width: imageWidth + 'px',
-                          }}
-                        >
+                        <div className="relative" style={imageWrapperStyle}>
                           <img
                             src={imageUrl}
                             alt={imageAlt}
-                            width={imageWidth}
-                            height={imageHeight}
-                            className="object-cover absolute"
-                            style={{
-                              top: '50%',
-                              left: '50%',
-                              transform: 'translate(-50%, -50%)',
-                            }}
+                            className="object-contain absolute"
+                            style={imageStyle}
                           />
                         </div>
                       )}
@@ -165,31 +184,33 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data, type }) => {
             })}
         </div>
       </div>
-      <div
-        className="absolute left-0 w-full"
-        style={{ zIndex: 400, bottom: '-10px' }}
-      >
-        <svg
-          className="w-full h-full"
-          id="wave"
-          style={{ transition: '0.3s' }}
-          viewBox="0 0 1440 120"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
+      {type !== 'products' && (
+        <div
+          className="absolute left-0 w-full"
+          style={{ zIndex: 400, bottom: '-10px' }}
         >
-          <defs>
-            <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
-              <stop stopColor="rgba(255, 255, 255, 1)" offset="0%"></stop>
-              <stop stopColor="rgba(255, 255, 255, 1)" offset="100%"></stop>
-            </linearGradient>
-          </defs>
-          <path
-            style={{ opacity: '1' }}
-            fill="url(#sw-gradient-0)"
-            d="M0,0L24,4C48,8,96,16,144,22C192,28,240,32,288,40C336,48,384,60,432,72C480,84,528,96,576,90C624,84,672,60,720,46C768,32,816,28,864,32C912,36,960,48,1008,48C1056,48,1104,36,1152,36C1200,36,1248,48,1296,52C1344,56,1392,52,1440,44C1488,36,1536,24,1584,22C1632,20,1680,28,1728,34C1776,40,1824,44,1872,50C1920,56,1968,64,2016,70C2064,76,2112,80,2160,84C2208,88,2256,92,2304,96C2352,100,2400,104,2448,88C2496,72,2544,36,2592,32C2640,28,2688,56,2736,62C2784,68,2832,52,2880,56C2928,60,2976,84,3024,92C3072,100,3120,92,3168,78C3216,64,3264,44,3312,48C3360,52,3408,80,3432,94L3456,108L3456,120L3432,120C3408,120,3360,120,3312,120C3264,120,3216,120,3168,120C3120,120,3072,120,3024,120C2976,120,2928,120,2880,120C2832,120,2784,120,2736,120C2688,120,2640,120,2592,120C2544,120,2496,120,2448,120C2400,120,2352,120,2304,120C2256,120,2208,120,2160,120C2112,120,2064,120,2016,120C1968,120,1920,120,1872,120C1824,120,1776,120,1728,120C1680,120,1632,120,1584,120C1536,120,1488,120,1440,120C1392,120,1344,120,1296,120C1248,120,1200,120,1152,120C1104,120,1056,120,1008,120C960,120,912,120,864,120C816,120,768,120,720,120C672,120,624,120,576,120C528,120,480,120,432,120C384,120,336,120,288,120C240,120,192,120,144,120C96,120,48,120,24,120L0,120Z"
-          ></path>
-        </svg>
-      </div>
+          <svg
+            className="w-full h-full"
+            id="wave"
+            style={{ transition: '0.3s' }}
+            viewBox="0 0 1440 120"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
+                <stop stopColor="rgba(255, 255, 255, 1)" offset="0%"></stop>
+                <stop stopColor="rgba(255, 255, 255, 1)" offset="100%"></stop>
+              </linearGradient>
+            </defs>
+            <path
+              style={{ opacity: '1' }}
+              fill="url(#sw-gradient-0)"
+              d="M0,0L24,4C48,8,96,16,144,22C192,28,240,32,288,40C336,48,384,60,432,72C480,84,528,96,576,90C624,84,672,60,720,46C768,32,816,28,864,32C912,36,960,48,1008,48C1056,48,1104,36,1152,36C1200,36,1248,48,1296,52C1344,56,1392,52,1440,44C1488,36,1536,24,1584,22C1632,20,1680,28,1728,34C1776,40,1824,44,1872,50C1920,56,1968,64,2016,70C2064,76,2112,80,2160,84C2208,88,2256,92,2304,96C2352,100,2400,104,2448,88C2496,72,2544,36,2592,32C2640,28,2688,56,2736,62C2784,68,2832,52,2880,56C2928,60,2976,84,3024,92C3072,100,3120,92,3168,78C3216,64,3264,44,3312,48C3360,52,3408,80,3432,94L3456,108L3456,120L3432,120C3408,120,3360,120,3312,120C3264,120,3216,120,3168,120C3120,120,3072,120,3024,120C2976,120,2928,120,2880,120C2832,120,2784,120,2736,120C2688,120,2640,120,2592,120C2544,120,2496,120,2448,120C2400,120,2352,120,2304,120C2256,120,2208,120,2160,120C2112,120,2064,120,2016,120C1968,120,1920,120,1872,120C1824,120,1776,120,1728,120C1680,120,1632,120,1584,120C1536,120,1488,120,1440,120C1392,120,1344,120,1296,120C1248,120,1200,120,1152,120C1104,120,1056,120,1008,120C960,120,912,120,864,120C816,120,768,120,720,120C672,120,624,120,576,120C528,120,480,120,432,120C384,120,336,120,288,120C240,120,192,120,144,120C96,120,48,120,24,120L0,120Z"
+            ></path>
+          </svg>
+        </div>
+      )}
     </section>
   )
 }

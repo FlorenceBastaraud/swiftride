@@ -7,13 +7,13 @@ import { Product } from '@/types/product'
 import ProductCard from '@/components/ProductCard'
 import Masonry from 'react-masonry-css'
 import { GalleryItem } from '@/types/media'
-import { CategoryType } from '@/types/category'
+import { Category } from '@/types/category'
 import Image from 'next/image'
 import { NewsletterEntry } from '@/types/newsletter'
 import TrustBadges from '@/components/TrustBadges'
 
 export default function Home() {
-  const [categories, setCategories] = useState<CategoryType[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [galleryImages, setGalleryImages] = useState<GalleryItem[]>([])
   const [imagesToShow, setImagesToShow] = useState<number>(6)

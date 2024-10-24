@@ -22,6 +22,9 @@ const config: Config = {
       rounded: {
         r: '50%',
       },
+      screens: {
+        filters: '1160px',
+      },
     },
   },
   plugins: [],

@@ -19,6 +19,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const imageAlt =
     productDetails.Image[0]?.alternativeText || `${productDetails.Name} image`
 
+  const isOutOfStock = productDetails.Stock === 0
+
   return (
     <Link href={`/products/${productDetails.Slug}`} passHref>
       <div
@@ -31,6 +33,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
             Best Seller
           </div>
         )}
+
+        {isOutOfStock && (
+          <div className="absolute top-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-br-lg z-10">
+            Out of Stock
+          </div>
+        )}
+
         <img
           src={imageUrl}
           alt={imageAlt}

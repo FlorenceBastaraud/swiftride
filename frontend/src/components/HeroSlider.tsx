@@ -63,7 +63,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data, type }) => {
                           {item.Name}
                         </h2>
                         <Link
-                          href={'/' + item.Slug}
+                          href={'/shop?category=' + item.Slug}
                           className="text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
                           aria-label={`Discover more about ${item.Name}`}
                         >

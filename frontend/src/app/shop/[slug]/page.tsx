@@ -50,7 +50,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       <Link href="/shop" className="text-black underline mb-4">
         Return to shop page
       </Link>
-      <section className="flex flex-wrap md:flex-nowrap mb-6">
+      <section className="flex flex-wrap md:flex-nowrap mb-6 mt-3 gap-2">
         <div className="md:w-1/2 h-[400px] overflow-hidden relative">
           <img
             src={imageUrl}
@@ -77,7 +77,8 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       <section className="border-t mt-10 pt-4">
         <h2 className="text-lg font-bold mb-4">Related Products</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 rproducts:grid-cols-4">
-          {relatedProducts?.length > 0 &&
+          {relatedProducts &&
+            relatedProducts?.length > 0 &&
             relatedProducts?.map((relatedProduct) => (
               <ProductCard
                 key={relatedProduct.Slug}

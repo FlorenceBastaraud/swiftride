@@ -5,15 +5,19 @@ import ProductCard from '@/components/ProductCard'
 import { Product } from '@/types/product'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 const productsPerPage = 9
 type categoriesArrType = { name: string; slug: string }
 
 export default function Shop() {
+  const searchParams = useSearchParams()
+
   const [featuredProducts, setFeaturedProducts] = useState<Product[] | []>([])
   const [products, setProducts] = useState<Product[] | []>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [categories, setCategories] = useState<categoriesArrType[]>([])
+  const [isCategoryShop, setIsCategoryShop] = useState<boolean>(false)
 
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000])
@@ -76,6 +80,15 @@ export default function Shop() {
     getProducts()
   }, [])
 
+  useEffect(() => {
+    const categoryParam = searchParams.get('category')
+
+    if (categoryParam) {
+      setSelectedCategory(categoryParam)
+      setIsCategoryShop(true)
+    }
+  }, [searchParams])
+
   const filteredProducts = products
     .filter((product) => {
       const matchesCategory =
@@ -123,34 +136,30 @@ export default function Shop() {
 
   return (
     <main className="wrapper-flex-1 overflow-x-hidden">
-      <h1
-        className="text-4xl italic font-semibold text-center absolute top-7"
-        style={{ left: '50%', transform: 'translateX(-50%)' }}
-      >
-        Shop
-      </h1>
+      {!isCategoryShop && (
+        <HeroSlider data={featuredProducts} type="products" />
+      )}
 
-      <HeroSlider data={featuredProducts} type="products" />
-
-      <section className="wrapper wrapper-py-3 gap-14 flex flex-col filters:flex-row max-filters:items-center">
+      <section className="wrapper wrapper-py-3 gap-14 flex flex-col max-sm:mt-6 filters:flex-row max-filters:items-center">
         <div className="max-sm:hidden max-filters:w-fit max-filters:border-2 max-filters:gap-6 max-filters:justify-center py-4 px-4 flex flex-col filters:space-y-6 filters:border-r-2 rounded-2xl max-filters:flex-row">
-          <div className="flex flex-col">
-            <label className="mb-1 font-bold text-blue-900">Category: </label>
-            <select
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              className="filters:ml-2"
-            >
-              <option value="all">All Categories</option>
-              {categories.length > 0 &&
-                categories.map((category) => (
-                  <option value={category.slug} key={category.slug}>
-                    {category.name}
-                  </option>
-                ))}
-            </select>
-          </div>
-
+          {!isCategoryShop && (
+            <div className="flex flex-col">
+              <label className="mb-1 font-bold text-blue-900">Category: </label>
+              <select
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+                className="filters:ml-2"
+              >
+                <option value="all">All Categories</option>
+                {categories.length > 0 &&
+                  categories.map((category) => (
+                    <option value={category.slug} key={category.slug}>
+                      {category.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+          )}
           <div className="flex flex-col">
             <label className="mb-1 font-bold text-blue-900">Max Price: </label>
             <input

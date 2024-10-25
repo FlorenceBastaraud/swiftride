@@ -6,6 +6,7 @@ import { Product } from '@/types/product'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import ScrollDownArrow from '@/components/ScrollDownArrow'
 
 const productsPerPage = 9
 type categoriesArrType = { name: string; slug: string }
@@ -134,13 +135,26 @@ export default function Shop() {
     setCurrentPage(1)
   }
 
+  const productShopStyle: {
+    marginTop?: string
+  } = {}
+  if (!isCategoryShop) {
+    productShopStyle.marginTop = '80px'
+  }
+
   return (
     <main className="wrapper-flex-1 overflow-x-hidden">
       {!isCategoryShop && (
-        <HeroSlider data={featuredProducts} type="products" />
+        <>
+          <HeroSlider data={featuredProducts} type="products" />
+          <ScrollDownArrow />
+        </>
       )}
 
-      <section className="wrapper wrapper-py-3 gap-14 flex flex-col max-sm:mt-6 filters:flex-row max-filters:items-center">
+      <section
+        className="wrapper wrapper-py-3 gap-14 flex flex-col max-sm:mt-6 filters:flex-row max-filters:items-center"
+        style={productShopStyle}
+      >
         <div className="max-sm:hidden max-filters:w-fit max-filters:border-2 max-filters:gap-6 max-filters:justify-center py-4 px-4 flex flex-col filters:space-y-6 filters:border-r-2 rounded-2xl max-filters:flex-row">
           {!isCategoryShop && (
             <div className="flex flex-col">

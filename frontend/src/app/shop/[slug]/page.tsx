@@ -48,7 +48,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       style={{ marginTop: '56px', padding: '2rem 1rem 5rem' }}
     >
       <Link href="/shop" className="text-black underline mb-4">
-        Return to shop page
+        Shop page
       </Link>
       <section className="flex flex-wrap md:flex-nowrap mb-6 mt-3 gap-2">
         <div className="md:w-1/2 h-[400px] overflow-hidden relative">

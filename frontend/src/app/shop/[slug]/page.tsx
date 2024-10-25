@@ -10,6 +10,7 @@ import {
   getRandomProducts,
 } from '@/utils/functions'
 import ProductCard from '@/components/ProductCard'
+import { addToCart } from '@/utils/functions'
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
   const [product, setProduct] = useState<Product | null>(null)
@@ -42,6 +43,10 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
   const imageAlt = product.Image[0]?.alternativeText || `${product.Name} image`
 
+  const handleAddToCart = () => {
+    addToCart(product.Slug)
+  }
+
   return (
     <main
       className="wrapper wrapper-flex-1 overflow-x-hidden mx-auto"
@@ -63,7 +68,10 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <p className="text-2xl font-semibold text-blue-950 mb-4">
             ${product.Price}
           </p>
-          <button className="w-fit text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black">
+          <button
+            className="w-fit text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </button>
         </div>

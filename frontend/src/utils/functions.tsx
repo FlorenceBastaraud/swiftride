@@ -42,3 +42,24 @@ export function getRandomProducts(
 ): Product[] {
   return products.sort(() => Math.random() - 0.5).slice(0, count)
 }
+
+type CartItem = {
+  slug: string
+  quantity: number
+}
+
+export const addToCart = (slug: string) => {
+  const existingCart = JSON.parse(
+    localStorage.getItem('swiftride-cart') || '[]'
+  ) as CartItem[]
+
+  const existingItem = existingCart.find((item) => item.slug === slug)
+
+  if (existingItem) {
+    existingItem.quantity += 1
+  } else {
+    existingCart.push({ slug, quantity: 1 })
+  }
+
+  localStorage.setItem('swiftride-cart', JSON.stringify(existingCart))
+}

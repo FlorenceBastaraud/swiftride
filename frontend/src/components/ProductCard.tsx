@@ -22,7 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const isOutOfStock = productDetails.Stock === 0
 
   return (
-    <Link href={`/products/${productDetails.Slug}`} passHref>
+    <Link href={`/shop/${productDetails.Slug}`} passHref>
       <div
         className={`w-80 md:w-full overflow-hidden bg-white p-6 rounded-lg shadow-lg max-w-product-card mx-auto relative transition-transform duration-200 ease-in-out hover:ring-2 hover:ring-black-400 ${
           isBestSeller ? 'ring-2 ring-black-400' : ''

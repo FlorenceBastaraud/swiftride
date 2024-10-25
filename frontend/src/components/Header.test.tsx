@@ -27,17 +27,14 @@ describe('Header component', () => {
 
     const homeLink = screen.getByRole('link', { name: /home/i })
     const shopLink = screen.getByRole('link', { name: /shop/i })
-    const galleryLink = screen.getByRole('link', { name: /gallery/i })
     const contactLink = screen.getByRole('link', { name: /contact/i })
 
     expect(homeLink).toBeInTheDocument()
     expect(shopLink).toBeInTheDocument()
-    expect(galleryLink).toBeInTheDocument()
     expect(contactLink).toBeInTheDocument()
 
     expect(homeLink).toHaveAttribute('href', '/')
     expect(shopLink).toHaveAttribute('href', '/shop')
-    expect(galleryLink).toHaveAttribute('href', '/gallery')
     expect(contactLink).toHaveAttribute('href', '/contact')
   })
 })

@@ -119,7 +119,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data, type }) => {
               const imageAlt =
                 item.Image[0]?.alternativeText || item.Name + ' image'
 
-              // Type guard to check if item is a Product
               if ('category' in item) {
                 const imageWidth =
                   item.category.Slug === 'skateboards'
@@ -188,7 +187,7 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data, type }) => {
                   </div>
                 )
               }
-              return null // Handle cases where item is not a Product
+              return null
             })}
         </div>
       </div>

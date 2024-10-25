@@ -66,18 +66,6 @@ const Header = () => {
                   ? 'text-blue-900 hover:text-blue-400'
                   : 'text-black hover:text-gray-400'
               }`}
-              href="/gallery"
-            >
-              Gallery
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={`p-2 transition-effect rounded-2xl ${
-                isScrolled
-                  ? 'text-blue-900 hover:text-blue-400'
-                  : 'text-black hover:text-gray-400'
-              }`}
               href="/contact"
             >
               Contact

@@ -6,7 +6,7 @@ import React from 'react'
 
 describe('HeroSlider', () => {
   it('renders correctly with data', () => {
-    render(<HeroSlider data={mockCategory} />)
+    render(<HeroSlider data={mockCategory} type="" />)
 
     const headingElement = screen.getByRole('heading', {
       name: /sample category/i,
@@ -18,7 +18,7 @@ describe('HeroSlider', () => {
   })
 
   it('renders correctly with no data', () => {
-    render(<HeroSlider data={[]} />)
+    render(<HeroSlider data={[]} type="" />)
 
     const defaultImage = screen.getByAltText(
       /a skateboarder performs an impressive trick mid-air/i

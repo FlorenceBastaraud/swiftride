@@ -23,7 +23,7 @@ const Header = () => {
       className={`fixed top-0 left-0 w-full transition-colors duration-300 ${
         isScrolled ? 'bg-white text-black' : 'bg-transparent text-white'
       }`}
-      style={{ zIndex: 200 }}
+      style={{ zIndex: 400 }}
     >
       <div className="wrapper flex justify-between items-center p-4">
         <Link

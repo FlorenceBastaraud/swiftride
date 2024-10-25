@@ -2,9 +2,13 @@
 
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
+import { getCartTotal } from '@/utils/functions'
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [cartCount, setCartCount] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -12,6 +16,9 @@ const Header = () => {
     }
 
     window.addEventListener('scroll', handleScroll)
+
+    const totalCount = getCartTotal()
+    setCartCount(totalCount)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
@@ -25,7 +32,7 @@ const Header = () => {
       }`}
       style={{ zIndex: 400 }}
     >
-      <div className="wrapper flex justify-between items-center p-4">
+      <div className="wrapper flex justify-between items-center p-4 relative">
         <Link
           className={`p-2 transition-effect rounded-2xl hover:scale-110 text-black ${
             isScrolled ? ' text-blue-900' : ' text-black'
@@ -69,6 +76,23 @@ const Header = () => {
               href="/contact"
             >
               Contact
+            </Link>
+          </li>
+          <li className="relative">
+            <Link
+              href="/cart"
+              className={`flex items-center p-2 transition-effect rounded-2xl ${
+                isScrolled
+                  ? 'text-blue-900 hover:text-blue-400'
+                  : 'text-black hover:text-gray-400'
+              }`}
+            >
+              <FontAwesomeIcon icon={faCartShopping} className="text-xl" />
+              {cartCount > 0 && (
+                <span className="absolute top-0 right-0 bg-blue-800 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                  {cartCount}
+                </span>
+              )}
             </Link>
           </li>
         </ul>

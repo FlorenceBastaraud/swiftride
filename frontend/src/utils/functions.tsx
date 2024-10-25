@@ -53,6 +53,7 @@ export const addToCart = (slug: string) => {
   cart[slug] = cart[slug] || { quantity: 0 }
   cart[slug].quantity += 1
   updateCart(cart)
+  getCartTotal()
 }
 
 export const getCart = () => {
@@ -65,4 +66,9 @@ export const updateCart = (cart: CartItem) => {
   if (typeof window !== 'undefined') {
     localStorage.setItem('swiftride-cart', JSON.stringify(cart))
   }
+}
+
+export function getCartTotal() {
+  const cart: CartItem[] = getCart()
+  return Object.values(cart).reduce((acc, item) => acc + item.quantity, 0)
 }

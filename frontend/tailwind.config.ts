@@ -24,6 +24,7 @@ const config: Config = {
       },
       screens: {
         filters: '1160px',
+        rproducts: '1330px',
       },
     },
   },

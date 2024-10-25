@@ -1,25 +1,19 @@
 'use client'
 
-import axios from 'axios'
 import { notFound } from 'next/navigation'
 import { Product } from '@/types/product'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-
-async function getProduct(slug: string): Promise<Product | null> {
-  try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/products?filters[Slug][$eq]=${slug}&populate=*`
-    )
-    return response.data.data.length > 0 ? response.data.data[0] : null
-  } catch (error) {
-    console.error('Error fetching product:', error)
-    return null
-  }
-}
+import {
+  getProduct,
+  getCategoryProducts,
+  getRandomProducts,
+} from '@/utils/functions'
+import ProductCard from '@/components/ProductCard'
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
   const [product, setProduct] = useState<Product | null>(null)
+  const [relatedProducts, setRelatedProducts] = useState<Product[] | null>(null)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -28,6 +22,10 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
         notFound()
       } else {
         setProduct(productData)
+        const relatedProductsData = await getCategoryProducts(
+          productData.category.Slug
+        )
+        setRelatedProducts(getRandomProducts(relatedProductsData || [], 4))
       }
     }
 
@@ -52,7 +50,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       <Link href="/shop" className="text-black underline mb-4">
         Return to shop page
       </Link>
-      <div className="flex flex-wrap md:flex-nowrap mb-6">
+      <section className="flex flex-wrap md:flex-nowrap mb-6">
         <div className="md:w-1/2 h-[400px] overflow-hidden relative">
           <img
             src={imageUrl}
@@ -69,17 +67,25 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             Add to Cart
           </button>
         </div>
-      </div>
-      <div>
+      </section>
+      <section>
         <h2 className="text-lg font-bold mb-2">Description</h2>
         <p className="text-lg mb-4">
           {product.Description[0].children[0].text}
         </p>
-      </div>
-      <div className="border-t mt-8 pt-4">
-        <h2 className="text-lg font-bold mb-2">Related Products</h2>
-        <div className="flex space-x-4">{/* related products */}</div>
-      </div>
+      </section>
+      <section className="border-t mt-10 pt-4">
+        <h2 className="text-lg font-bold mb-4">Related Products</h2>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 rproducts:grid-cols-4">
+          {relatedProducts?.length > 0 &&
+            relatedProducts?.map((relatedProduct) => (
+              <ProductCard
+                key={relatedProduct.Slug}
+                productDetails={relatedProduct}
+              />
+            ))}
+        </div>
+      </section>
     </main>
   )
 }

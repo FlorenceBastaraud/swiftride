@@ -10,11 +10,12 @@ import {
   getRandomProducts,
 } from '@/utils/functions'
 import ProductCard from '@/components/ProductCard'
-import { addToCart } from '@/utils/functions'
+import { addToCart, updateCart, getCart } from '@/utils/functions'
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
   const [product, setProduct] = useState<Product | null>(null)
   const [relatedProducts, setRelatedProducts] = useState<Product[] | null>(null)
+  const [quantity, setQuantity] = useState(0)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -33,6 +34,12 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     fetchProduct()
   }, [params.slug])
 
+  useEffect(() => {
+    const cart = getCart()
+    const itemQuantity = (product && cart[product.Slug]?.quantity) || 0
+    setQuantity(itemQuantity)
+  }, [product])
+
   if (!product) {
     return <div>Loading...</div>
   }
@@ -45,6 +52,13 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
   const handleAddToCart = () => {
     addToCart(product.Slug)
+    setQuantity((prev) => {
+      const newQuantity = prev + 1
+      const cart = getCart()
+      cart[product.Slug] = { quantity: newQuantity }
+      updateCart(cart)
+      return newQuantity
+    })
   }
 
   return (
@@ -69,10 +83,15 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             ${product.Price}
           </p>
           <button
-            className="w-fit text-white bg-black py-1 px-4 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
+            className={`w-fit py-1 px-4 border-2 border-transparent rounded-2xl transition-effect hover:bg-white  hover:border-black ${
+              quantity > 0
+                ? 'bg-white text-black border-blue-400 font-semibold hover:text-gray-600'
+                : 'bg-black text-white hover:text-black'
+            }`}
             onClick={handleAddToCart}
           >
             Add to Cart
+            {quantity > 0 && <span className="ml-2">x {quantity}</span>}
           </button>
         </div>
       </section>

@@ -49,17 +49,20 @@ type CartItem = {
 }
 
 export const addToCart = (slug: string) => {
-  const existingCart = JSON.parse(
-    localStorage.getItem('swiftride-cart') || '[]'
-  ) as CartItem[]
+  const cart = getCart()
+  cart[slug] = cart[slug] || { quantity: 0 }
+  cart[slug].quantity += 1
+  updateCart(cart)
+}
 
-  const existingItem = existingCart.find((item) => item.slug === slug)
+export const getCart = () => {
+  if (typeof window === 'undefined') return {}
+  const cart = localStorage.getItem('swiftride-cart')
+  return cart ? JSON.parse(cart) : {}
+}
 
-  if (existingItem) {
-    existingItem.quantity += 1
-  } else {
-    existingCart.push({ slug, quantity: 1 })
+export const updateCart = (cart: CartItem) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('swiftride-cart', JSON.stringify(cart))
   }
-
-  localStorage.setItem('swiftride-cart', JSON.stringify(existingCart))
 }

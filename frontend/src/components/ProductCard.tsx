@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Product } from '@/types/product'
 import { stripText } from '@/utils/functions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
-import { addToCart } from '@/utils/functions'
+import { addToCart, getCart, updateCart } from '@/utils/functions'
 
 interface ProductCardProps {
   productDetails: Product
@@ -15,6 +15,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   productDetails,
   isBestSeller,
 }) => {
+  const [quantity, setQuantity] = useState(0)
+
   const imageUrl = productDetails.Image[0]?.url
     ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${productDetails.Image[0].url}`
     : '/images/default-product-image.png'
@@ -24,8 +26,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const isOutOfStock = productDetails.Stock === 0
 
+  useEffect(() => {
+    const cart = getCart()
+    const itemQuantity = cart[productDetails.Slug]?.quantity || 0
+    setQuantity(itemQuantity)
+  }, [productDetails.Slug])
+
   const handleAddToCart = () => {
     addToCart(productDetails.Slug)
+    setQuantity((prev) => {
+      const newQuantity = prev + 1
+      const cart = getCart()
+      cart[productDetails.Slug] = { quantity: newQuantity }
+      updateCart(cart)
+      return newQuantity
+    })
   }
 
   return (
@@ -72,13 +87,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
           e.stopPropagation()
           handleAddToCart()
         }}
-        className="absolute bottom-4 right-4"
+        className="absolute bottom-4 right-4 flex gap-2 items-center justify-center text-black"
         aria-label={`Add ${productDetails.Name} to cart`}
       >
         <FontAwesomeIcon
           icon={faCartShopping}
-          className="hover:text-blue-950 transition-effect"
+          className={`hover:text-blue-800 transition-effect ${
+            quantity > 0 ? 'text-blue-800' : ''
+          }`}
         />
+        {quantity > 0 && (
+          <span className={`font-semibold text-blue-800`}>{quantity}</span>
+        )}
       </button>
     </div>
   )

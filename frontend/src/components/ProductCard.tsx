@@ -15,7 +15,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   productDetails,
   isBestSeller,
 }) => {
-  const { addToCart, getProductQuantityInCart } = useContext(CartContext)
+  const { addToCart, getProductQuantityInCart, removeFromCart } =
+    useContext(CartContext)
 
   const imageUrl = productDetails.Image[0]?.url
     ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${productDetails.Image[0].url}`
@@ -75,15 +76,32 @@ const ProductCard: React.FC<ProductCardProps> = ({
         className="absolute bottom-4 right-4 flex gap-2 items-center justify-center text-black"
         aria-label={`Add ${productDetails.Name} to cart`}
       >
-        <FontAwesomeIcon
-          icon={faCartShopping}
-          className={`hover:text-blue-800 transition-effect ${
-            quantity > 0 ? 'text-blue-800' : ''
-          }`}
-        />
         {quantity > 0 && (
-          <span className={`font-semibold text-blue-800`}>{quantity}</span>
+          <button
+            className="text-black bg-slate-200 text-center flex justify-center items-center w-[20px] py-0 px-2 text-lg font-bold transition-effect transition-1s hover:bg-slate-400 hover:text-blue-945 hover:border-black"
+            onClick={(e) => {
+              e.stopPropagation()
+              removeFromCart(productDetails.Slug)
+            }}
+            aria-label={`Remove ${productDetails.Name} from cart`}
+          >
+            -
+          </button>
         )}
+
+        <div className="relative">
+          <FontAwesomeIcon
+            icon={faCartShopping}
+            className={`hover:text-blue-800 transition-effect ${
+              quantity > 0 ? 'text-blue-800' : ''
+            }`}
+          />
+          {quantity > 0 && (
+            <span className="absolute top-[-10px] right-[-10px] bg-blue-800 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+              {quantity}
+            </span>
+          )}
+        </div>
       </button>
     </div>
   )

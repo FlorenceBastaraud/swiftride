@@ -39,6 +39,10 @@
   transition: 0.3s ease-in-out;
 }
 
+.transition-1s {
+  transition: 1s;
+}
+
 .my-masonry-grid {
   display: flex;
   margin-left: -20px;

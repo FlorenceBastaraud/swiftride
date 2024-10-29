@@ -11,9 +11,12 @@ import {
 } from '@/utils/functions'
 import ProductCard from '@/components/ProductCard'
 import CartContext from '@/context/cartContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
-  const { addToCart, getProductQuantityInCart } = useContext(CartContext)
+  const { addToCart, getProductQuantityInCart, removeFromCart } =
+    useContext(CartContext)
 
   const [product, setProduct] = useState<Product | null>(null)
   const [relatedProducts, setRelatedProducts] = useState<Product[] | null>(null)
@@ -68,17 +71,39 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <p className="text-2xl font-semibold text-blue-950 mb-4">
             ${product.Price}
           </p>
-          <button
-            className={`w-fit py-1 px-4 border-2 border-transparent rounded-2xl transition-effect hover:bg-white  hover:border-black ${
-              quantity > 0
-                ? 'bg-white text-black border-blue-400 font-semibold hover:text-gray-600'
-                : 'bg-black text-white hover:text-black'
-            }`}
-            onClick={() => addToCart(product.Slug)}
-          >
-            Add to Cart
-            {quantity > 0 && <span className="ml-2">x {quantity}</span>}
-          </button>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <FontAwesomeIcon
+                icon={faCartShopping}
+                className={`hover:text-blue-800 transition-effect ${
+                  quantity > 0 ? 'text-blue-800' : ''
+                }`}
+              />
+              {quantity > 0 && (
+                <span className="absolute top-[-10px] right-[10px] bg-blue-800 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                  {quantity}
+                </span>
+              )}
+            </div>
+            <div className="flex">
+              {quantity > 0 && (
+                <button
+                  className="text-black bg-slate-200 text-center flex justify-center items-center w-[20px] py-0 px-2 text-lg font-bold transition-effect transition-1s hover:bg-slate-400 hover:text-blue-945 hover:border-black"
+                  onClick={() => removeFromCart(product.Slug)}
+                  aria-label={`Remove ${product.Name} from cart`}
+                >
+                  -
+                </button>
+              )}
+              <button
+                className="text-white bg-black text-center flex justify-center items-center w-[20px] py-0 px-2 text-lg font-bold transition-effect transition-1s hover:bg-slate-400 hover:text-blue-945 hover:border-black"
+                onClick={() => addToCart(product.Slug)}
+                aria-label={`Add ${product.Name} to cart`}
+              >
+                +
+              </button>
+            </div>
+          </div>
         </div>
       </section>
       <section>

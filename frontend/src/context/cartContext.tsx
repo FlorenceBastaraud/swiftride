@@ -13,6 +13,7 @@ type TCartContextValues = {
   addToCart: (slug: string) => void
   updateCart: (newCart: CartItem[]) => void
   getProductQuantityInCart: (slug: string) => number
+  removeFromCart: (slug: string) => void
 }
 
 const CartContext = createContext({} as TCartContextValues)
@@ -45,6 +46,28 @@ const CartContextProvider = ({ children }: CartProviderProps) => {
     }
 
     updateCart(existingCart)
+  }
+
+  const removeFromCart = (slug: string): void => {
+    const itemToRemove = cart.find((item) => item.slug === slug)
+    let newCart: CartItem[] = []
+
+    if (itemToRemove) {
+      if (itemToRemove.quantity > 1) {
+        newCart = cart.map((item) => {
+          if (item.slug === slug) {
+            item.quantity -= 1
+            return item
+          } else {
+            return item
+          }
+        })
+      } else if (itemToRemove.quantity === 1) {
+        newCart = cart.filter((item) => item.slug !== slug)
+      }
+    }
+
+    updateCart(newCart)
   }
 
   const updateCart = (newCart: CartItem[]): void => {
@@ -81,6 +104,7 @@ const CartContextProvider = ({ children }: CartProviderProps) => {
         addToCart,
         updateCart,
         getProductQuantityInCart,
+        removeFromCart,
       }}
     >
       {children}

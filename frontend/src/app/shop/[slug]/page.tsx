@@ -3,19 +3,22 @@
 import { notFound } from 'next/navigation'
 import { Product } from '@/types/product'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   getProduct,
   getCategoryProducts,
   getRandomProducts,
 } from '@/utils/functions'
 import ProductCard from '@/components/ProductCard'
-import { addToCart, updateCart, getCart } from '@/utils/functions'
+import CartContext from '@/context/cartContext'
 
 export default function ProductPage({ params }: { params: { slug: string } }) {
+  const { addToCart, getProductQuantityInCart } = useContext(CartContext)
+
   const [product, setProduct] = useState<Product | null>(null)
   const [relatedProducts, setRelatedProducts] = useState<Product[] | null>(null)
-  const [quantity, setQuantity] = useState(0)
+
+  const quantity = getProductQuantityInCart(params.slug)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,12 +37,6 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     fetchProduct()
   }, [params.slug])
 
-  useEffect(() => {
-    const cart = getCart()
-    const itemQuantity = (product && cart[product.Slug]?.quantity) || 0
-    setQuantity(itemQuantity)
-  }, [product])
-
   if (!product) {
     return <div>Loading...</div>
   }
@@ -49,17 +46,6 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     : '/images/default-product-image.png'
 
   const imageAlt = product.Image[0]?.alternativeText || `${product.Name} image`
-
-  const handleAddToCart = () => {
-    addToCart(product.Slug)
-    setQuantity((prev) => {
-      const newQuantity = prev + 1
-      const cart = getCart()
-      cart[product.Slug] = { quantity: newQuantity }
-      updateCart(cart)
-      return newQuantity
-    })
-  }
 
   return (
     <main
@@ -88,7 +74,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
                 ? 'bg-white text-black border-blue-400 font-semibold hover:text-gray-600'
                 : 'bg-black text-white hover:text-black'
             }`}
-            onClick={handleAddToCart}
+            onClick={() => addToCart(product.Slug)}
           >
             Add to Cart
             {quantity > 0 && <span className="ml-2">x {quantity}</span>}

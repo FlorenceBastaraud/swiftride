@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link'
 import { Product } from '@/types/product'
 import { stripText } from '@/utils/functions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
-import { addToCart, getCart, updateCart } from '@/utils/functions'
+import CartContext from '@/context/cartContext'
 
 interface ProductCardProps {
   productDetails: Product
@@ -15,7 +15,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   productDetails,
   isBestSeller,
 }) => {
-  const [quantity, setQuantity] = useState(0)
+  const { addToCart, getProductQuantityInCart } = useContext(CartContext)
 
   const imageUrl = productDetails.Image[0]?.url
     ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${productDetails.Image[0].url}`
@@ -26,22 +26,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const isOutOfStock = productDetails.Stock === 0
 
-  useEffect(() => {
-    const cart = getCart()
-    const itemQuantity = cart[productDetails.Slug]?.quantity || 0
-    setQuantity(itemQuantity)
-  }, [productDetails.Slug])
-
-  const handleAddToCart = () => {
-    addToCart(productDetails.Slug)
-    setQuantity((prev) => {
-      const newQuantity = prev + 1
-      const cart = getCart()
-      cart[productDetails.Slug] = { quantity: newQuantity }
-      updateCart(cart)
-      return newQuantity
-    })
-  }
+  const quantity = getProductQuantityInCart(productDetails.Slug)
 
   return (
     <div
@@ -85,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <button
         onClick={(e) => {
           e.stopPropagation()
-          handleAddToCart()
+          addToCart(productDetails.Slug)
         }}
         className="absolute bottom-4 right-4 flex gap-2 items-center justify-center text-black"
         aria-label={`Add ${productDetails.Name} to cart`}

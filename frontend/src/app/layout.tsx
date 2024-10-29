@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ScrollToTopButton from '@/components/ScrollToTopButton'
+import { CartContextProvider } from '@/context/cartContext'
 
 export const metadata: Metadata = {
   title: 'SwiftRide',
@@ -16,13 +17,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className="w-full flex justify-center flex-col min-h-screen">
-        <Header />
-        {children}
-        <Footer />
-        <ScrollToTopButton />
-      </body>
-    </html>
+    <CartContextProvider>
+      <html lang="en">
+        <body className="w-full flex justify-center flex-col min-h-screen">
+          <Header />
+          {children}
+          <Footer />
+          <ScrollToTopButton />
+        </body>
+      </html>
+    </CartContextProvider>
   )
 }

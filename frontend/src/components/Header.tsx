@@ -1,14 +1,15 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
-import { getCartTotal } from '@/utils/functions'
+import CartContext from '@/context/cartContext'
 
 const Header = () => {
+  const { cartTotal } = useContext(CartContext)
+
   const [isScrolled, setIsScrolled] = useState(false)
-  const [cartCount, setCartCount] = useState(0)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,9 +17,6 @@ const Header = () => {
     }
 
     window.addEventListener('scroll', handleScroll)
-
-    const totalCount = getCartTotal()
-    setCartCount(totalCount)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
@@ -88,9 +86,9 @@ const Header = () => {
               }`}
             >
               <FontAwesomeIcon icon={faCartShopping} className="text-xl" />
-              {cartCount > 0 && (
+              {cartTotal > 0 && (
                 <span className="absolute top-0 right-0 bg-blue-800 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
-                  {cartCount}
+                  {cartTotal}
                 </span>
               )}
             </Link>

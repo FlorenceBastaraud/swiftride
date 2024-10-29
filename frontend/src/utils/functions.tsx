@@ -42,33 +42,3 @@ export function getRandomProducts(
 ): Product[] {
   return products.sort(() => Math.random() - 0.5).slice(0, count)
 }
-
-type CartItem = {
-  slug: string
-  quantity: number
-}
-
-export const addToCart = (slug: string) => {
-  const cart = getCart()
-  cart[slug] = cart[slug] || { quantity: 0 }
-  cart[slug].quantity += 1
-  updateCart(cart)
-  getCartTotal()
-}
-
-export const getCart = () => {
-  if (typeof window === 'undefined') return {}
-  const cart = localStorage.getItem('swiftride-cart')
-  return cart ? JSON.parse(cart) : {}
-}
-
-export const updateCart = (cart: CartItem) => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('swiftride-cart', JSON.stringify(cart))
-  }
-}
-
-export function getCartTotal() {
-  const cart: CartItem[] = getCart()
-  return Object.values(cart).reduce((acc, item) => acc + item.quantity, 0)
-}

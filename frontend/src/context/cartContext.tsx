@@ -2,6 +2,7 @@
 
 import { createContext, ReactNode, useState, useEffect } from 'react'
 import { CartItem } from '@/types/cart'
+import { Product } from '@/types/product'
 
 interface CartProviderProps {
   children: ReactNode
@@ -10,10 +11,12 @@ interface CartProviderProps {
 type TCartContextValues = {
   cart: CartItem[]
   cartTotal: number
-  addToCart: (slug: string) => void
+  addToCart: (slug: string, product: Product) => void
   updateCart: (newCart: CartItem[]) => void
   getProductQuantityInCart: (slug: string) => number
   removeFromCart: (slug: string) => void
+  deleteCart: () => void
+  cartTotalPrice: number
 }
 
 const CartContext = createContext({} as TCartContextValues)
@@ -23,6 +26,7 @@ export default CartContext
 const CartContextProvider = ({ children }: CartProviderProps) => {
   const [cart, setCart] = useState<CartItem[]>([])
   const [cartTotal, setCartTotal] = useState<number>(0)
+  const [cartTotalPrice, setCartTotalPrice] = useState(0)
 
   const getCart = (): CartItem[] => {
     if (typeof window === 'undefined') return []
@@ -35,14 +39,14 @@ const CartContextProvider = ({ children }: CartProviderProps) => {
     }
   }
 
-  const addToCart = (slug: string): void => {
+  const addToCart = (slug: string, product: Product): void => {
     const existingCart = getCart()
     const itemIndex = existingCart.findIndex((item) => item.slug === slug)
 
     if (itemIndex !== -1) {
       existingCart[itemIndex].quantity += 1
     } else {
-      existingCart.push({ slug, quantity: 1 })
+      existingCart.push({ slug, product, quantity: 1 })
     }
 
     updateCart(existingCart)
@@ -82,9 +86,24 @@ const CartContextProvider = ({ children }: CartProviderProps) => {
     return p?.quantity || 0
   }
 
+  const deleteCart = () => {
+    localStorage.removeItem('swiftride-cart')
+    setCart([])
+  }
+
   useEffect(() => {
     setCart(getCart())
   }, [])
+
+  useEffect(() => {
+    let totalPrice = 0
+    if (cart.length > 0) {
+      cart.map((item) => {
+        totalPrice += item.product.Price * item.quantity
+      })
+    }
+    setCartTotalPrice(totalPrice)
+  }, [cart])
 
   useEffect(() => {
     const getCartTotal = () => {
@@ -105,6 +124,8 @@ const CartContextProvider = ({ children }: CartProviderProps) => {
         updateCart,
         getProductQuantityInCart,
         removeFromCart,
+        deleteCart,
+        cartTotalPrice,
       }}
     >
       {children}

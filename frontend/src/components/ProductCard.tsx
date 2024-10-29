@@ -71,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <button
         onClick={(e) => {
           e.stopPropagation()
-          addToCart(productDetails.Slug)
+          addToCart(productDetails.Slug, productDetails)
         }}
         className="absolute bottom-4 right-4 flex gap-2 items-center justify-center text-black"
         aria-label={`Add ${productDetails.Name} to cart`}

@@ -1,6 +1,6 @@
-import { CategoryType } from '@/types/category'
+import { Category } from '@/types/category'
 
-export const mockCategory: CategoryType[] = [
+export const mockCategory: Category[] = [
   {
     id: 1,
     documentId: 'doc1',

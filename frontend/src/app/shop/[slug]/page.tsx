@@ -97,7 +97,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
               )}
               <button
                 className="text-white bg-black text-center flex justify-center items-center w-[20px] py-0 px-2 text-lg font-bold transition-effect transition-1s hover:bg-slate-400 hover:text-blue-945 hover:border-black"
-                onClick={() => addToCart(product.Slug)}
+                onClick={() => addToCart(product.Slug, product)}
                 aria-label={`Add ${product.Name} to cart`}
               >
                 +

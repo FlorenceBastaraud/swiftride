@@ -3,6 +3,7 @@
 import { createContext, ReactNode, useState, useEffect } from 'react'
 import { CartItem } from '@/types/cart'
 import { Product } from '@/types/product'
+import { Order } from '@/types/order'
 
 interface CartProviderProps {
   children: ReactNode
@@ -17,6 +18,8 @@ type TCartContextValues = {
   removeFromCart: (slug: string) => void
   deleteCart: () => void
   cartTotalPrice: number
+  getClientOrderData: () => Order
+  setClientOrderData: (orderData: Order) => void
 }
 
 const CartContext = createContext({} as TCartContextValues)
@@ -27,6 +30,7 @@ const CartContextProvider = ({ children }: CartProviderProps) => {
   const [cart, setCart] = useState<CartItem[]>([])
   const [cartTotal, setCartTotal] = useState<number>(0)
   const [cartTotalPrice, setCartTotalPrice] = useState(0)
+  const [clientOrder, setClientOrder] = useState<Order>({} as Order)
 
   const getCart = (): CartItem[] => {
     if (typeof window === 'undefined') return []
@@ -91,6 +95,14 @@ const CartContextProvider = ({ children }: CartProviderProps) => {
     setCart([])
   }
 
+  const setClientOrderData = (orderData: Order) => {
+    setClientOrder(orderData)
+  }
+
+  const getClientOrderData = () => {
+    return clientOrder
+  }
+
   useEffect(() => {
     setCart(getCart())
   }, [])
@@ -126,6 +138,8 @@ const CartContextProvider = ({ children }: CartProviderProps) => {
         removeFromCart,
         deleteCart,
         cartTotalPrice,
+        getClientOrderData,
+        setClientOrderData,
       }}
     >
       {children}

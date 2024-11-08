@@ -42,3 +42,7 @@ export function getRandomProducts(
 ): Product[] {
   return products.sort(() => Math.random() - 0.5).slice(0, count)
 }
+
+export function convertToSubCurrency(amount: number, factor: number = 100) {
+  return Math.round(amount * factor)
+}

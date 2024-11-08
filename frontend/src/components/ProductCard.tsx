@@ -68,7 +68,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
       </Link>
 
-      <button
+      <div
         onClick={(e) => {
           e.stopPropagation()
           addToCart(productDetails.Slug, productDetails)
@@ -102,7 +102,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </span>
           )}
         </div>
-      </button>
+      </div>
     </div>
   )
 }

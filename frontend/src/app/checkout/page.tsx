@@ -5,10 +5,12 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { PaymentForm } from '@/components/PaymentForm'
 import CartContext from '@/context/cartContext'
+import { convertToSubCurrency } from '@/utils/functions'
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-)
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
+  throw new Error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined')
+}
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 const Checkout: React.FC = () => {
   const { cart, cartTotalPrice, setClientOrderData } = useContext(CartContext)
@@ -39,6 +41,10 @@ const Checkout: React.FC = () => {
       list: cart,
     })
   }
+
+  const isFormValid = Object.values(personalData).every(
+    (field) => field.trim() !== ''
+  )
 
   return (
     <div
@@ -128,12 +134,21 @@ const Checkout: React.FC = () => {
         </form>
       </div>
 
-      <Elements stripe={stripePromise}>
-        <div className="w-full p-4 border rounded-[20px] mb-4">
-          <h2 className="text-2xl font-semibold mb-4">Payment</h2>
-          <PaymentForm />
-        </div>
-      </Elements>
+      {cartTotalPrice > 0 && isFormValid && (
+        <Elements
+          stripe={stripePromise}
+          options={{
+            mode: 'payment',
+            amount: convertToSubCurrency(cartTotalPrice),
+            currency: 'usd',
+          }}
+        >
+          <div className="w-full p-4 border rounded-[20px] mb-4">
+            <h2 className="text-2xl font-semibold mb-4">Payment</h2>
+            <PaymentForm total={cartTotalPrice} isFormValid={isFormValid} />
+          </div>
+        </Elements>
+      )}
     </div>
   )
 }

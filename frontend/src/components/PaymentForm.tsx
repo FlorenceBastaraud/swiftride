@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useContext } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
+import { convertToSubCurrency } from '@/utils/functions'
 import CartContext from '@/context/cartContext'
 import { Order } from '@/types/order'
 import axios from 'axios'
@@ -25,7 +26,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
   useEffect(() => {
     axios
       .post('/api/create-payment-intent', {
-        amount: total,
+        amount: convertToSubCurrency(total),
       })
       .then((response) => {
         setClientSecret(response.data.clientSecret)

@@ -2,7 +2,6 @@
 
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { convertToSubCurrency } from '@/utils/functions'
 
 export default function PaymentSuccess() {
   const searchParams = useSearchParams()
@@ -26,10 +25,8 @@ export default function PaymentSuccess() {
         </h1>
         <p className="text-lg text-center mt-4">
           Thank you for your payment of{' '}
-          <span className="font-semibold">
-            ${convertToSubCurrency(Number(amount))}
-          </span>
-          . Your transaction was successful.
+          <span className="font-semibold">${Number(amount)}</span>. Your
+          transaction was successful.
         </p>
         <p className="text-center mt-8">
           You will receive a confirmation email with the transaction details

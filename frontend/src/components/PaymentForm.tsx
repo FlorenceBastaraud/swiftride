@@ -1,8 +1,10 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
-import { convertToSubCurrency } from '@/utils/functions'
+import CartContext from '@/context/cartContext'
+import { Order } from '@/types/order'
+import axios from 'axios'
 interface PaymentFormProps {
   total: number
   isFormValid: boolean
@@ -17,18 +19,73 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
   const [errorMessage, setErrorMessage] = useState<string>()
   const [clientSecret, setClientSecret] = useState('')
   const [loading, setLoading] = useState(false)
+  const { deleteCart, getClientOrderData, cart } = useContext(CartContext)
+  const [orderDetails, setOrderDetails] = useState<Order | null>(null)
 
   useEffect(() => {
-    fetch('/api/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount: convertToSubCurrency(total) }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret))
+    axios
+      .post('/api/create-payment-intent', {
+        amount: total,
+      })
+      .then((response) => {
+        setClientSecret(response.data.clientSecret)
+      })
+      .catch((error) => {
+        console.error('Error creating payment intent:', error)
+        setErrorMessage('Failed to create payment intent. Please try again.')
+      })
   }, [total])
+
+  useEffect(() => {
+    const clientData = getClientOrderData()
+    if (clientData.name) {
+      setOrderDetails({
+        ...clientData,
+        list: cart,
+      })
+    }
+  }, [getClientOrderData, cart])
+
+  const saveOrder = async () => {
+    if (orderDetails && orderDetails.name) {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/orders`,
+          {
+            data: {
+              Name: orderDetails.name,
+              Email: orderDetails.email,
+              Address: orderDetails.address,
+              City: orderDetails.city,
+              PostalCode: orderDetails.postalCode,
+              List: orderDetails.list,
+            },
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+
+        if (response.status === 201) {
+          deleteCart()
+        } else {
+          console.warn('Unexpected response:', response.status, response.data)
+        }
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          console.error('Error response data:', error.response?.data)
+          console.error('Error response status:', error.response?.status)
+        } else if (error instanceof Error) {
+          console.error('Error message:', error.message)
+        } else {
+          console.error('Unexpected error:', error)
+        }
+        throw new Error(`Error saving order: ${error}`)
+      }
+    }
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -46,6 +103,8 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
       return
     }
 
+    saveOrder()
+
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
@@ -56,6 +115,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
 
     if (error) {
       setErrorMessage(error.message)
+      throw new Error(`dofus error... ${error.message}`)
     }
     setLoading(false)
   }

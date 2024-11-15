@@ -630,7 +630,7 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
     Address: Schema.Attribute.Text & Schema.Attribute.Required;
     City: Schema.Attribute.String & Schema.Attribute.Required;
     List: Schema.Attribute.JSON & Schema.Attribute.Required;
-    postalCode: Schema.Attribute.String & Schema.Attribute.Required;
+    PostalCode: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

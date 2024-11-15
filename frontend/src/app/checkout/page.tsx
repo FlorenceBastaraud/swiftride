@@ -14,6 +14,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 const Checkout: React.FC = () => {
   const { cart, cartTotalPrice, setClientOrderData } = useContext(CartContext)
+  const [isFormValid, setIsFormValid] = useState(false)
 
   const [personalData, setPersonalData] = useState({
     name: '',
@@ -25,10 +26,18 @@ const Checkout: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setPersonalData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
+    setPersonalData((prevState) => {
+      const updatedData = { ...prevState, [name]: value }
+
+      setIsFormValid(
+        Object.values(updatedData).every((field) => field.trim() !== '')
+      )
+
+      return {
+        ...prevState,
+        [name]: value,
+      }
+    })
 
     const { name: clientName, email, address, city, postalCode } = personalData
 
@@ -41,10 +50,6 @@ const Checkout: React.FC = () => {
       list: cart,
     })
   }
-
-  const isFormValid = Object.values(personalData).every(
-    (field) => field.trim() !== ''
-  )
 
   return (
     <div

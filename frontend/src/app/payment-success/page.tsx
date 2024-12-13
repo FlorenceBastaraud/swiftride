@@ -1,18 +1,26 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext, useRef } from 'react'
+import CartContext from '@/context/cartContext'
 
 export default function PaymentSuccess() {
   const searchParams = useSearchParams()
   const [amount, setAmount] = useState('')
+  const { deleteCart } = useContext(CartContext)
+  const hasDeletedCart = useRef(false)
 
   useEffect(() => {
     const amountParam = searchParams.get('amount')
     if (amountParam) {
       setAmount(amountParam)
     }
-  }, [searchParams])
+
+    if (!hasDeletedCart.current) {
+      deleteCart()
+      hasDeletedCart.current = true
+    }
+  }, [searchParams, deleteCart])
 
   return (
     <main
@@ -25,8 +33,8 @@ export default function PaymentSuccess() {
         </h1>
         <p className="text-lg text-center mt-4">
           Thank you for your payment of{' '}
-          <span className="font-semibold">${Number(amount)}</span>. Your
-          transaction was successful.
+          <span className="font-semibold">${Number(amount).toFixed(2)}</span>.
+          Your transaction was successful.
         </p>
         <p className="text-center mt-8">
           You will receive a confirmation email with the transaction details

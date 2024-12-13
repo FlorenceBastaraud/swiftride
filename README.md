@@ -13,10 +13,11 @@ Welcome to **SwiftRide**, your one-stop shop for rollers, skateboards, bikes, an
 
 - User-friendly interface for seamless navigation
 - Product listings with detailed descriptions, images, and prices
-- Shopping cart functionality
-- User authentication and profile management
-- Admin panel for managing products, orders, and users (powered by Strapi)
-- Responsive design for mobile and desktop
+- Product filters to sort and refine products by categories, price range, and other attributes
+- Shopping cart functionality for adding and reviewing items before checkout
+- Admin panel for managing products, orders, client emails, messages, and updating static content (powered by Strapi)
+- Responsive design ensuring a seamless experience on both mobile and desktop devices
+- Stripe Checkout integration for secure and efficient payment processing
 
 ## Technologies Used
 
@@ -76,6 +77,6 @@ npm run dev
 
 ## Usage
 
-This project is intended for personal use and testing only.
+This project is intended for personal use and testing only. It is a demonstration project. The products are not real and the payments are simulated.
 Commercial use is not permitted. If you wish to use this project for commercial purposes, please contact me for further information at [fbastaraud@yahoo.fr](mailto:fbastaraud@yahoo.fr)
 .

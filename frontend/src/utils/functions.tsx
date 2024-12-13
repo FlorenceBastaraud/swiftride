@@ -46,3 +46,7 @@ export function getRandomProducts(
 export function convertToSubCurrency(amount: number, factor: number = 100) {
   return Math.round(amount * factor)
 }
+
+export function generateOrderId() {
+  return `order_${Date.now()}`
+}

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useContext } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
-import { convertToSubCurrency } from '@/utils/functions'
+import { convertToSubCurrency, generateOrderId } from '@/utils/functions'
 import CartContext from '@/context/cartContext'
 import { Order } from '@/types/order'
 import axios from 'axios'
@@ -20,13 +20,16 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
   const [errorMessage, setErrorMessage] = useState<string>()
   const [clientSecret, setClientSecret] = useState('')
   const [loading, setLoading] = useState(false)
-  const { deleteCart, getClientOrderData, cart } = useContext(CartContext)
+  const { getClientOrderData, cart } = useContext(CartContext)
   const [orderDetails, setOrderDetails] = useState<Order | null>(null)
 
   useEffect(() => {
+    const orderId = generateOrderId()
+
     axios
       .post('/api/create-payment-intent', {
         amount: convertToSubCurrency(total),
+        orderId,
       })
       .then((response) => {
         setClientSecret(response.data.clientSecret)
@@ -69,9 +72,7 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
           }
         )
 
-        if (response.status === 201) {
-          deleteCart()
-        } else {
+        if (response.status !== 201) {
           console.warn('Unexpected response:', response.status, response.data)
         }
       } catch (error: unknown) {
@@ -115,9 +116,11 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
     })
 
     if (error) {
-      setErrorMessage(error.message)
-      throw new Error(`dofus error... ${error.message}`)
+      setErrorMessage('Update your payment informations.')
+      setLoading(false)
+      throw new Error(`Payment error... ${error.message}`)
     }
+
     setLoading(false)
   }
 
@@ -140,7 +143,11 @@ export const PaymentForm: React.FC<PaymentFormProps> = ({
     <form onSubmit={handleSubmit} className="bg-white p-2 rounded-md">
       {clientSecret && <PaymentElement />}
 
-      {errorMessage && <div>{errorMessage}</div>}
+      {errorMessage && (
+        <div className="mt-2">
+          <em>{errorMessage}</em>
+        </div>
+      )}
 
       <button
         disabled={!stripe || loading || !isFormValid}

@@ -146,10 +146,21 @@ const Checkout: React.FC = () => {
             mode: 'payment',
             amount: convertToSubCurrency(cartTotalPrice),
             currency: 'usd',
+            locale: 'en',
           }}
         >
           <div className="w-full p-4 border rounded-[20px] mb-4">
             <h2 className="text-2xl font-semibold mb-4">Payment</h2>
+            <p className="mb-3">
+              <em>
+                <b>DISCLAIMER</b>: This website is a demonstration project.{' '}
+                <u>The products are not real</u>, and{' '}
+                <u>payments are simulated</u>. Use the card number{' '}
+                <b>4242 4242 4242 4242</b> to experience the full process. Enter
+                any date later than today&apos;s date for the expiration date,
+                and any random security code.
+              </em>
+            </p>
             <PaymentForm total={cartTotalPrice} isFormValid={isFormValid} />
           </div>
         </Elements>

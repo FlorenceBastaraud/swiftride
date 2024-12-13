@@ -11,6 +11,7 @@ import { Category } from '@/types/category'
 import Image from 'next/image'
 import { NewsletterEntry } from '@/types/newsletter'
 import TrustBadges from '@/components/TrustBadges'
+import Notification from '@/components/Notification'
 
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>([])
@@ -134,6 +135,7 @@ export default function Home() {
 
   return (
     <main className="wrapper-flex-1 overflow-x-hidden">
+      <Notification />
       <HeroSlider data={categories} type="categories" />
       <section className="wrapper wrapper-py-3 mt50">
         <h2 className="text-3xl font-semibold text-center mb-8">

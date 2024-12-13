@@ -6,6 +6,7 @@ import { Elements } from '@stripe/react-stripe-js'
 import { PaymentForm } from '@/components/PaymentForm'
 import CartContext from '@/context/cartContext'
 import { convertToSubCurrency } from '@/utils/functions'
+import Notification from '@/components/Notification'
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
   throw new Error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined')
@@ -56,6 +57,7 @@ const Checkout: React.FC = () => {
       className="wrapper wrapper-checkout wrapper-flex-1 overflow-x-hidden mx-auto"
       style={{ marginTop: '56px', padding: '2rem 1rem 5rem' }}
     >
+      <Notification />
       <h1 className="relative flex items-center justify-center mb-8 z-10 text-4xl md:text-5xl font-bold text-black text-center px-4">
         Checkout
       </h1>
@@ -153,12 +155,12 @@ const Checkout: React.FC = () => {
             <h2 className="text-2xl font-semibold mb-4">Payment</h2>
             <p className="mb-3">
               <em>
-                <b>DISCLAIMER</b>: This website is a demonstration project.{' '}
+                <b>REMINDER</b>: This website is a demonstration project.{' '}
                 <u>The products are not real</u>, and{' '}
                 <u>payments are simulated</u>. Use the card number{' '}
-                <b>4242 4242 4242 4242</b> to experience the full process. Enter
-                any date later than today&apos;s date for the expiration date,
-                and any random security code.
+                <b>4242 4242 4242 4242</b> to complete the checkout process.
+                Enter any date later than today&apos;s date for the expiration
+                date, and any random security code.
               </em>
             </p>
             <PaymentForm total={cartTotalPrice} isFormValid={isFormValid} />

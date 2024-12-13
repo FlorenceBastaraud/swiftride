@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import ScrollDownArrow from '@/components/ScrollDownArrow'
+import Notification from '@/components/Notification'
 
 const productsPerPage = 9
 type categoriesArrType = { name: string; slug: string }
@@ -144,6 +145,8 @@ export default function Shop() {
 
   return (
     <main className="wrapper-flex-1 overflow-x-hidden">
+      <Notification />
+
       {!isCategoryShop && (
         <>
           <HeroSlider data={featuredProducts} type="products" />

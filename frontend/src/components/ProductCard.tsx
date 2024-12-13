@@ -92,7 +92,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="relative">
           <FontAwesomeIcon
             icon={faCartShopping}
-            className={`hover:text-blue-800 transition-effect ${
+            className={`hover:text-blue-800 transition-effect cursor-pointer ${
               quantity > 0 ? 'text-blue-800' : ''
             }`}
           />

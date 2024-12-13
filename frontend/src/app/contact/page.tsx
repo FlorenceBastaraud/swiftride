@@ -4,6 +4,7 @@ import HeroBanner from '@/components/HeroBanner'
 import { useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
+import Notification from '@/components/Notification'
 
 interface FormData {
   name: string
@@ -66,6 +67,7 @@ export default function Contact() {
 
   return (
     <main className="wrapper-flex-1 overflow-x-hidden relative max-lg:mt-[100px]">
+      <Notification />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 lg:absolute lg:top-0 lg:left-0 lg:w-full lg:h-full">
         <div className="hidden lg:block">
           <HeroBanner

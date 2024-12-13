@@ -13,7 +13,7 @@ Welcome to **SwiftRide**, your one-stop shop for rollers, skateboards, bikes, an
 
 - User-friendly interface for seamless navigation
 - Product listings with detailed descriptions, images, and prices
-- Product filters to sort and refine products by categories, price range, and other attributes
+- Shop page with product filters to sort and refine products by categories, price range, and other attributes, along with pagination for easy browsing
 - Shopping cart functionality for adding and reviewing items before checkout
 - Admin panel for managing products, orders, client emails, messages, and updating static content (powered by Strapi)
 - Responsive design ensuring a seamless experience on both mobile and desktop devices

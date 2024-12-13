@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import ScrollDownArrow from '@/components/ScrollDownArrow'
 import Notification from '@/components/Notification'
+import Link from 'next/link'
 
 const productsPerPage = 9
 type categoriesArrType = { name: string; slug: string }
@@ -136,6 +137,11 @@ export default function Shop() {
     setCurrentPage(1)
   }
 
+  function handleAllProductPage() {
+    setSelectedCategory('all')
+    setIsCategoryShop(false)
+  }
+
   const productShopStyle: {
     marginTop?: string
   } = {}
@@ -176,6 +182,15 @@ export default function Shop() {
                   ))}
               </select>
             </div>
+          )}
+          {isCategoryShop && (
+            <Link
+              href="/shop"
+              className="text-white text-center bg-blue-900 py-1 px-2 border border-transparent rounded-2xl transition-effect hover:bg-white hover:text-black hover:border-black"
+              onClick={handleAllProductPage}
+            >
+              All products
+            </Link>
           )}
           <div className="flex flex-col">
             <label className="mb-1 font-bold text-blue-900">Max Price: </label>

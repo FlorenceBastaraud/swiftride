@@ -16,7 +16,7 @@ const Notification = () => {
 
   if (!isVisible) return null
   return (
-    <div className="fixed bottom-4 left-0 right-0 text-white text-center text-sm z-50 flex justify-center items-center">
+    <div className="fixed bottom-4 left-0 right-0 text-white text-center text-sm z-[900] flex justify-center items-center p-2">
       <p className="bg-blue-950 w-fit flex justify-between items-center gap-5 py-2 px-5 rounded-lg">
         <em>
           <b>DISCLAIMER</b>: This website is a demonstration project.{' '}

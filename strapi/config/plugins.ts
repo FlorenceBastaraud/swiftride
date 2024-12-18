@@ -5,10 +5,11 @@ export default () => ({
       providerOptions: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: 'eu-west-3',
+        region: process.env.AWS_REGION,
         params: {
-          Bucket: 'swiftride-assets',
+          Bucket: process.env.AWS_BUCKET_NAME,
         },
+        acl: null,
       },
     },
   },

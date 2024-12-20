@@ -27,7 +27,6 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ data, type }) => {
         slidesPerView: 1,
       })
     }
-
     return () => {
       if (swiperInstance) {
         swiperInstance.destroy()

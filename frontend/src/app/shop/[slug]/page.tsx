@@ -14,18 +14,32 @@ import CartContext from '@/context/cartContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
+export default function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
   const { addToCart, getProductQuantityInCart, removeFromCart } =
     useContext(CartContext)
 
   const [product, setProduct] = useState<Product | null>(null)
   const [relatedProducts, setRelatedProducts] = useState<Product[] | null>(null)
+  const [theSlug, setTheSlug] = useState<string>('')
 
-  const quantity = getProductQuantityInCart(params.slug)
+  const quantity = getProductQuantityInCart(theSlug)
+
+  useEffect(() => {
+    async function fetchParams() {
+      const { slug } = await params
+
+      setTheSlug(slug)
+    }
+    fetchParams()
+  }, [params])
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const productData = await getProduct(params.slug)
+      const productData = await getProduct(theSlug)
       if (!productData) {
         notFound()
       } else {
@@ -38,7 +52,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
     }
 
     fetchProduct()
-  }, [params.slug])
+  }, [theSlug])
 
   if (!product) {
     return <div>Loading...</div>

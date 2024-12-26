@@ -23,10 +23,8 @@ Welcome to **SwiftRide**, your one-stop shop for rollers, skateboards, bikes, an
 
 - **Next.js**: A React framework for server-rendered applications
 - **Tailwind CSS**: A utility-first CSS framework for styling
+- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript, offering static typing and enhanced code reliability
 - **Strapi**: A headless CMS for managing content and APIs
-- **React**: JavaScript library for building user interfaces
-- **Node.js**: JavaScript runtime for server-side development
-- **Gsap**: A JavaScript animation library
 - **Stripe**: A powerful payment processing platform for online transactions
 
 ## Installation
@@ -35,48 +33,50 @@ To set up the project locally, follow these steps:
 
 1. Clone the repository:
 
-```bash
-git clone https://github.com/FlorenceBastaraud/swiftride.git
-cd swiftride
-
-```
+   ```bash
+   git clone https://github.com/FlorenceBastaraud/swiftride.git
+   cd swiftride
+   ```
 
 2. Set up Strapi:
 
-Navigate to the Strapi folder:
+   Navigate to the Strapi folder:
 
-```bash
-cd strapi
-npm install
-npm run develop
-```
+   ```bash
+   cd strapi
+   npm install
+   npm run develop
+   ```
 
 3. Navigate to the Next.js project:
 
-```bash
-cd ..
-cd frontend
-
-```
+   ```bash
+   cd ..
+   cd frontend
+   ```
 
 4. Install the dependencies:
 
-```bash
-npm i
-
-```
+   ```bash
+   npm i
+   ```
 
 5. Start the Next.js development server:
 
-```bash
-npm run dev
+   ```bash
+   npm run dev
+   ```
 
-```
+6. Visit [http://localhost:3000](http://localhost:3000) in your browser to view the website.
 
-6. Visit http://localhost:3000 in your browser to view the website.
+7. Go to [http://localhost:1337](http://localhost:1337) to update content from Strapi.
+
+   **Note:** The Strapi instance will not include pre-populated content. You need to manually add or import your own content through the Strapi admin panel.
 
 ## Usage
 
-This project is intended for personal use and testing only. It is a demonstration project. The products are not real and the payments are simulated.
-Commercial use is not permitted. If you wish to use this project for commercial purposes, please contact me for further information at [fbastaraud@yahoo.fr](mailto:fbastaraud@yahoo.fr)
-.
+This project is intended for personal use and testing only. It is a demonstration project.
+
+**Important:** The content in the Strapi instance will not match the demo website unless you manually add it. Refer to the Strapi admin panel at [http://localhost:1337](http://localhost:1337) to add or manage content.
+
+The products are not real, and the payments are simulated. Commercial use is not permitted. If you wish to use this project for commercial purposes, please contact me for further information at [fbastaraud@yahoo.fr](mailto:fbastaraud@yahoo.fr).
